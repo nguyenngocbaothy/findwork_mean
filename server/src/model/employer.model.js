@@ -30,7 +30,7 @@ const employerSchema = new Schema({
         type: String,
         required: true
     },
-    contents: [{ type: Schema.Types.ObjectId, ref: 'Content' }]
+    job: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
 });
 
 const EmployerModel = mongoose.model('Employer', employerSchema);
@@ -74,8 +74,6 @@ class Employer extends EmployerModel {
     }
 
     static async updateEmployer(idEmployer,  email, password, address, phone, name) {
-        const emp = await Employer.findOne({ email });
-        if (emp) throw new MyError('Email existed.', EMAIL_EXISTED, 400);
         const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name }, {new: true})
         const employerInfo = employer.toObject();
         delete employer.password;

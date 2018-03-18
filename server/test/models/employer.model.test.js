@@ -85,3 +85,21 @@ describe('Test employer sign in', () => {
         }
     });
 });
+
+describe('Test employer update info', () => {
+    let employerId;
+    beforeEach('Sign up a employer for test', async () => {
+        await Employer.signUp('company100@gmail.com', '123', '123abc', '123456789', 'company100');
+        const employer = await Employer.findOne({ email: 'company100@gmail.com'});
+        //console.log(employer.password);
+        employerId = employer._id;
+    });
+
+    it('Can update employer with address', async () => {
+        // console.log(employerId);
+        await Employer.updateEmployer(employerId, 'company100@gmail.com', '123', '123abc', '123456789', 'company100update');
+        const employers = await Employer.find({});
+        const { email, password, address, phone, name } =  employers[0];
+        assert.equal(name, 'company100update');
+    });
+});
