@@ -10,7 +10,6 @@ const { jobRouter } = require('../src/controller/job.route');
 app.use(parser.json()); 
 app.use(express.static('public'));
 
-//app.use('/contentemployer', contentEmployerRoute);
 app.use('/employer', employerRouter);
 app.use('/user', userRouter);
 app.use('/job', jobRouter);

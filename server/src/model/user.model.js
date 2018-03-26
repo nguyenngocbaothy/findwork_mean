@@ -12,7 +12,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, trim: true },
     name: { type: String, required: true },
-    listjobuser: [{ type: Schema.Types.ObjectId, ref: 'ListJobUser' }]
+    listjobuser: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
 });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -53,6 +53,14 @@ class User extends UserModel {
         userInfo.token = token;
         delete userInfo.password;
         return userInfo;
+    }
+
+    static async saveJob(idUser, idJob) {
+        const user = await User.findByIdAndUpdate(idUser, { $addToSet: { listjobuser: idJob } })
+        .catch(error => { throw new Error('Cannot find user.'); });
+        if (!user) throw new MyError('Cannot find user.', 'CANNOT_FIND_USER', 404);
+
+        return user.toObject();
     }
 }
 

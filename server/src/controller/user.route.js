@@ -25,5 +25,11 @@ userRouter.post('/check', mustBeUser, (req, res) => {
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
 
+userRouter.post('/savejob/:id', mustBeUser, (req, res) => {
+    User.saveJob(req.idUser, req.params.id)
+    .then(user => res.send({ success: true, user }))
+    .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
+});
+
 
 module.exports = { userRouter };
