@@ -1,0 +1,26 @@
+.content {
+    background-color: #fcf6f2;
+    margin-top: -20px;
+    padding-top: 30px;
+}
+
+input.icon::-webkit-input-placeholder {
+    font-family:'FontAwesome';
+}
+
+.search {
+    background-color: #42b6f4; 
+    padding: 20px;
+}
+
+.info {
+    padding-top: 20px;
+    padding-bottom: 18px;
+    background-color: white;
+}
+
+.detail {
+    background-color: #c7f8f9;
+    height: 150px;
+    margin-top: 5px;
+}

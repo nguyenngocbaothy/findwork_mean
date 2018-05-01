@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
 const jobSchema = new Schema({
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
     location: {
         type: String,
         required: true

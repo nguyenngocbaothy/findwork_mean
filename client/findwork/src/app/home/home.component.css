@@ -1,0 +1,24 @@
+.row {
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: -20px;
+}
+
+.find {
+    color: white;
+    position: absolute;
+    z-index: 999;
+    opacity: 0.6;
+    background-color: black;
+    margin-left: 400px;
+    margin-top: 300px;
+    padding-left: 20px;
+    padding-top: 10px;
+    width: 750px;
+    height: 140px;
+}
+
+input.icon::-webkit-input-placeholder {
+    font-family:'FontAwesome';
+}
