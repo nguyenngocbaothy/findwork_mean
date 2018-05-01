@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
+  href = false;
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  click(value: Boolean) {
+    if (value === true) {
+      this.href = true;
+    } else {
+      this.href = false;
+    }
+  }
+
 
 }

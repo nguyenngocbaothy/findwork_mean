@@ -8,12 +8,14 @@ import { MenuComponent } from './menu/menu.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
+import { EmployersComponent } from './employers/employers.component';
 
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'alljobs', component: ContentComponent }
+  { path: 'alljobs', component: ContentComponent },
+  { path: 'employers', component: EmployersComponent }
 ];
 
 @NgModule({
@@ -22,7 +24,8 @@ const routersConfig: Routes = [
     MenuComponent,
     HomeComponent,
     FooterComponent,
-    ContentComponent
+    ContentComponent,
+    EmployersComponent
   ],
   imports: [
     BrowserModule,

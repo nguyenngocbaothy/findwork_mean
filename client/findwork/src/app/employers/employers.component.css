@@ -1,0 +1,38 @@
+span{
+    margin-left: 50px;
+}
+
+.info {
+    margin-left: 150px;
+    position: absolute;
+    margin-top: 35px;
+}
+
+.dt{
+  color: #f79400;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+.info2 {
+    text-align: center;
+    margin-left: 350px;
+    position: absolute;
+    margin-top: 200px;
+}
+
+.btnSignup{
+    margin-left: 850px;
+    position: absolute;
+    margin-top: 25px;
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+.btnSignin{
+    margin-left: 950px;
+    position: absolute;
+    margin-top: 25px;
+    border: 1px solid white;
+    border-radius: 20px;
+}
