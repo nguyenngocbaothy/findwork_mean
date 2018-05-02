@@ -9,13 +9,21 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { EmployersComponent } from './employers/employers.component';
+import { DetailComponent } from './detail/detail.component';
 
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'alljobs', component: ContentComponent },
-  { path: 'employers', component: EmployersComponent }
+  {
+    path: 'alljobs',
+    component: ContentComponent
+    // children: [
+    //   { path: 'detail', component: DetailComponent }
+    // ]
+  },
+  { path: 'employers', component: EmployersComponent },
+  { path: 'alljobs/detail', component: DetailComponent }
 ];
 
 @NgModule({
@@ -25,7 +33,8 @@ const routersConfig: Routes = [
     HomeComponent,
     FooterComponent,
     ContentComponent,
-    EmployersComponent
+    EmployersComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
