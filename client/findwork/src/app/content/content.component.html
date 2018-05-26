@@ -1,27 +1,28 @@
 <div class=content>
   <div class="container search">
-    <div class="form-group">
-      <input type="text" class="form-control icon" style="width: 330px; float:left" placeholder="&#xf002; Enter job title, position">
+    <div class="form-group" [formGroup]="formSearch">
+      <input type="text" class="form-control icon" style="width: 330px; float:left" placeholder="&#xf002; Enter job title, position" formControlName="search">
 
-      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;">
+      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;" formControlName="cate">
         <option>All category</option>
-        <option>Ketchup</option>
-        <option>Relish</option>
+        <option *ngFor="let category of categories">{{category.name}}</option>
       </select>
 
-      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;">
-        <option>All Location</option>
-        <option>Ketchup</option>
-        <option>Relish</option>
+      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;" formControlName="loca">
+        <option value="All Location">All Location</option>
+        <option *ngFor="let loca of location">{{loca}}</option>
       </select>
 
-      <button type="button" class="btn btn-warning" style="float: left; margin-left: 10px;">Find Job</button>
+      <button type="submit" (click)="onSubmitForm()" class="btn btn-warning" style="float: left; margin-left: 10px;">Find Job</button>
     </div>
 
   </div>
 
   <br>
   <br>
+
+  <!-- <br>
+  <pre>{{ formSearch.value | json }}</pre> -->
 
   <div class="container info">
     <span>1000 JOBS FOUND</span>

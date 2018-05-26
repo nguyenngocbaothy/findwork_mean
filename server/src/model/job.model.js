@@ -93,6 +93,67 @@ class Job extends JobModel {
         
         return job;
     }
+
+    static async searchJob(keyword, category, location) {
+        console.log(keyword, category, location);
+        if(keyword !== '' && category !=='' && location !== ''){
+            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { location: {$regex: location}}, { category: {$regex: category} } ] })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword == '' && category !=='' && location !== ''){
+            const job = await Job.find({$and: [{ location: {$regex: location}}, { category: {$regex: category} } ] })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword !== '' && category =='' && location !== ''){
+            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { location: {$regex: location} }] })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword !== '' && category !=='' && location == ''){
+            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { category: {$regex: category} } ] })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword == '' && category =='' && location !== ''){
+            const job = await Job.find({ location: {$regex: location}} )
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword !== '' && category =='' && location == ''){
+            const job = await Job.find({title: {$regex: keyword} })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword == '' && category !=='' && location == ''){
+            const job = await Job.find({category: {$regex: category} })
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+        if(keyword == '' && category =='' && location == ''){
+            const job = await Job.find({}).sort(-1)
+            .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+            if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+            return job;
+        }
+    
+    }
 }
 
 module.exports = Job;

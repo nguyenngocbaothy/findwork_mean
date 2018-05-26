@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import { StoreModule } from '@ngrx/store';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -10,7 +13,11 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { EmployersComponent } from './employers/employers.component';
 import { DetailComponent } from './detail/detail.component';
+import { CateService } from './service/cate.service';
 
+
+// reducers
+import { categoryReducer } from './ngrx/categoryReducer';
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -38,9 +45,15 @@ const routersConfig: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routersConfig)
+    RouterModule.forRoot(routersConfig),
+    HttpModule,
+    StoreModule.forRoot({
+      category: categoryReducer
+    }),
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
