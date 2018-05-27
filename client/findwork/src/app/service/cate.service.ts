@@ -20,4 +20,26 @@ export class CateService {
     .catch(err => console.log(err.json()));
   }
 
+  search(key, cate, loca) {
+    if (cate === 'All category') {
+      cate = '';
+    }
+    if (loca === 'All Location') {
+      loca = '';
+    }
+    return this.http.post(SERVER_URL + 'job/search', { key, cate, loca }).toPromise()
+      .then(res => {
+        this.store.dispatch({ type: 'GET_JOBS', jobs: res.json().job });
+      })
+      .catch(err => console.log(err.json()));
+  }
+
+  getAllJobs() {
+    return this.http.get(SERVER_URL + 'job/').toPromise()
+    .then(res => {
+      this.store.dispatch({ type: 'GET_ALL_JOBS', jobs: res.json().newJob });
+    })
+    .catch(err => console.log(err.json()));
+  }
+
 }

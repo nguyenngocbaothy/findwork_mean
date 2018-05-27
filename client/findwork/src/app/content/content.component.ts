@@ -11,12 +11,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ContentComponent implements OnInit {
   categories: Category[] = [];
-  location: string[] = ['TPHCM', 'HaNoi'];
+  location: string[] = ['HCM', 'HaNoi'];
+  jobs: any[];
+  allJobs: any[];
 
   formSearch: FormGroup;
 
   constructor(private cate: CateService, private store: Store<any>, private fb: FormBuilder) {
     this.store.select('category').subscribe(categories => this.categories = categories);
+    this.store.select('jobs').subscribe(jobs => {
+      this.allJobs = jobs;
+      console.log(this.allJobs);
+    });
   }
 
   ngOnInit() {
@@ -26,10 +32,17 @@ export class ContentComponent implements OnInit {
       cate : 'All category',
       loca : 'All Location'
     });
+
+    this.cate.getAllJobs();
   }
 
   onSubmitForm() {
-    console.log(this.formSearch.value);
+    // console.log(this.formSearch.value);
+    this.cate.search(this.formSearch.value.search, this.formSearch.value.cate, this.formSearch.value.loca);
+    this.store.select('jobs').subscribe(jobs => {
+      this.jobs = jobs;
+      console.log(this.jobs);
+    });
   }
 
 }

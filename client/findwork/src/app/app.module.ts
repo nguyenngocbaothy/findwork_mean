@@ -18,6 +18,7 @@ import { CateService } from './service/cate.service';
 
 // reducers
 import { categoryReducer } from './ngrx/categoryReducer';
+import { jobsReducer } from './ngrx/jobsReducer';
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -48,7 +49,8 @@ const routersConfig: Routes = [
     RouterModule.forRoot(routersConfig),
     HttpModule,
     StoreModule.forRoot({
-      category: categoryReducer
+      category: categoryReducer,
+      jobs: jobsReducer
     }),
     FormsModule,
     ReactiveFormsModule

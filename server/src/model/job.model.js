@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Employer = require('../model/employer.model');
+const Category = require('../model/category.model');
 
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
@@ -39,13 +40,13 @@ const JobModel = mongoose.model('Job', jobSchema);
 module.exports = JobModel;
 
 class Job extends JobModel {
-    static async addJob(employerId, location, title, salary, description, requirement, benefit) {
+    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId) {
         const objectDetail =  {
             "description": description,
             "requirement": requirement,
             "benefit": benefit
         };
-        const newJob = new JobModel({ location, title, salary, detail: objectDetail, employer: employerId })
+        const newJob = new JobModel({ category: categoryId, location, title, salary, detail: objectDetail, employer: employerId })
         await newJob.save()
         .catch(error => {
             throw new MyError('Invalid job info', INVALID_JOB_INFO, 400);
@@ -53,7 +54,7 @@ class Job extends JobModel {
         const jobInfo = newJob.toObject();
 
         // add job to array job of employer
-        const employerUpdade = await Employer.findByIdAndUpdate(employerId, { $addToSet: { job:  jobInfo._id} })
+        const employerUpdade = await Employer.findByIdAndUpdate(employerId, { $addToSet: { job: jobInfo._id} })
         // .then(employerUpdade => {
         //     //console.log(employerUpdade);
         //     console.log(employerUpdade.populate('job'));
@@ -95,16 +96,23 @@ class Job extends JobModel {
     }
 
     static async searchJob(keyword, category, location) {
-        console.log(keyword, category, location);
         if(keyword !== '' && category !=='' && location !== ''){
-            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { location: {$regex: location}}, { category: {$regex: category} } ] })
+            const cate = await Category.findOne({name : category})
+            .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
+            if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
+
+            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { location: {$regex: location}}, { category: cate._id }] })
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
             return job;
         }
         if(keyword == '' && category !=='' && location !== ''){
-            const job = await Job.find({$and: [{ location: {$regex: location}}, { category: {$regex: category} } ] })
+            const cate = await Category.findOne({name : category})
+            .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
+            if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
+
+            const job = await Job.find({$and: [{ location: {$regex: location}}, { category: cate._id } ] })
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
@@ -118,7 +126,11 @@ class Job extends JobModel {
             return job;
         }
         if(keyword !== '' && category !=='' && location == ''){
-            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { category: {$regex: category} } ] })
+            const cate = await Category.findOne({name : category})
+            .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
+            if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
+
+            const job = await Job.find({$and: [{ title: {$regex: keyword} }, { category: cate._id }] })
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
@@ -139,20 +151,32 @@ class Job extends JobModel {
             return job;
         }
         if(keyword == '' && category !=='' && location == ''){
-            const job = await Job.find({category: {$regex: category} })
+            const cate = await Category.findOne({name : category})
+            .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
+            if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
+
+            const job = await Job.find({ category: cate_id })
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
             return job;
         }
         if(keyword == '' && category =='' && location == ''){
-            const job = await Job.find({}).sort(-1)
+            const job = await Job.find({})
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
             return job;
         }
     
+    }
+
+    static async getAll() {
+        const job = await Job.find({})
+        .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+        if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+        return job;
     }
 }
 
