@@ -16,6 +16,10 @@ categoryRouter.get('/', (req, res) => {
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
 
-
+categoryRouter.get('/:id', (req, res) => {
+    Category.getCategoryById(req.params.id)
+    .then(category => res.send({ success: true, category }))
+    .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
+});
 
 module.exports = { categoryRouter };

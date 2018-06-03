@@ -37,6 +37,14 @@ class Category extends CategoryModel {
 
         return cate;
     }
+
+    static async getCategoryById(cateId) {
+        const cate = CategoryModel.findOne({_id: cateId})
+        .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
+        if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
+
+        return cate;
+    }
 }
 
 module.exports = Category;

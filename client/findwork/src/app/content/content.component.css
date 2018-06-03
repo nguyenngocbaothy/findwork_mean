@@ -2,6 +2,7 @@
     background-color: #fcf6f2;
     margin-top: -20px;
     padding-top: 30px;
+    height: auto;
 }
 
 input.icon::-webkit-input-placeholder {

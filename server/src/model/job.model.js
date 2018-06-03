@@ -19,6 +19,10 @@ const jobSchema = new Schema({
         type: Number,
         required: true
     },
+    company: {
+        type: String,
+        required: true
+    },
     detail: {
         description: { 
             type: String, 
@@ -40,13 +44,13 @@ const JobModel = mongoose.model('Job', jobSchema);
 module.exports = JobModel;
 
 class Job extends JobModel {
-    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId) {
+    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId, company) {
         const objectDetail =  {
             "description": description,
             "requirement": requirement,
             "benefit": benefit
         };
-        const newJob = new JobModel({ category: categoryId, location, title, salary, detail: objectDetail, employer: employerId })
+        const newJob = new JobModel({ category: categoryId, location, title, salary, company, detail: objectDetail, employer: employerId })
         await newJob.save()
         .catch(error => {
             throw new MyError('Invalid job info', INVALID_JOB_INFO, 400);
@@ -155,7 +159,8 @@ class Job extends JobModel {
             .catch(error => { throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404); })
             if(!cate) throw new MyError('Cannot get category.', 'INVALID_CATEGORY_INFO', 404);
 
-            const job = await Job.find({ category: cate_id })
+
+            const job = await Job.find({ category: cate._id })
             .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
             if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 
@@ -173,6 +178,14 @@ class Job extends JobModel {
 
     static async getAll() {
         const job = await Job.find({})
+        .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
+        if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
+
+        return job;
+    }
+
+    static async getJobById(jobId) {
+        const job = await Job.findOne({_id: jobId})
         .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
         if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 

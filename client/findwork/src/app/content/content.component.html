@@ -1,4 +1,4 @@
-<div class=content>
+<div class="content">
   <div class="container search">
     <div class="form-group" [formGroup]="formSearch">
       <input type="text" class="form-control icon" style="width: 330px; float:left" placeholder="&#xf002; Enter job title, position" formControlName="search">
@@ -39,10 +39,10 @@
   <div class="container detail" *ngFor="let job of allJobs">
     <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
     <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
-      <a [routerLink]="['./detail']"><h4>
-        <strong>{{job.title}}</strong>
+      <a [routerLink]="['./detail', job._id]"><h4>
+        <strong>{{job.title | uppercase}}</strong>
       </h4></a>
-      <p>FOODCONNECTION Company</p>
+      <p>{{job.company | uppercase}} company</p>
       <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
       <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
       <a routerLink="#" title="You should Log In to save job!">
@@ -60,9 +60,9 @@
       <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
       <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
         <a [routerLink]="['./detail']"><h4>
-          <strong>{{job.title}}</strong>
+          <strong>{{job.title | uppercase}}</strong>
         </h4></a>
-        <p>FOODCONNECTION Company</p>
+        <p>{{job.company | uppercase}} company</p>
         <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
         <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
         <a routerLink="#" title="You should Log In to save job!">
@@ -74,23 +74,6 @@
       </div>
     </div>
     </div>
-  <!-- <div class="container detail">
-      <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
-      <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
-        <h4>
-          <strong>Front-end HTML Coder / Front-end Developer</strong>
-        </h4>
-        <p>FOODCONNECTION Company</p>
-        <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
-        <p style="margin-top: 35px; float: left; padding-left: 5px;">| Location</p>
-        <a routerLink="#" title="You should Log In to save job!">
-          <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
-          <span style="float: right;">
-            <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
-          </span>
-        </a>
-      </div>
-    </div> -->
     <!-- <div class="container detail" *ngFor="let job of jobs">
         <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
         <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">

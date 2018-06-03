@@ -8,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class MenuComponent implements OnInit {
 
   href = false;
+  url: string;
 
-  constructor() { }
+  constructor() {
+    this.url = window.location.href;
+    if (this.url.includes('employers')) {
+      this.href = true;
+    }
+  }
 
   ngOnInit() {
   }
