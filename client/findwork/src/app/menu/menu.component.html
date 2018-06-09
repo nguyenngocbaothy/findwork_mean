@@ -14,15 +14,19 @@
       </li> -->
       <li><a [routerLink]="['/alljobs']" href="#" (click)="click(false)">All Jobs</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" *ngIf="!isSuccessLogin">
       <li *ngIf="!href"><a href="#" data-toggle="modal" data-target="#signup"><span class="glyphicon glyphicon-user" style="margin-top: 10px;"></span> Sign Up</a></li>
       <li *ngIf="!href"><a href="#" data-toggle="modal" data-target="#signin"><span class="glyphicon glyphicon-log-in" style="margin-top: 10px;"></span> Login</a></li>
       <li><a routerLink="/employers" style="background-color: #42b6f4; color:aliceblue;" (click)="click(true)">EMPLOYERS<br>Post Jobs and Find Talents</a></li>
     </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="isSuccessLogin" style="margin-top: 24px;">
+      <li *ngIf="!href" style="margin-right: 200px;"><span *ngIf="isSuccessLogin">WELLCOME TO MY APP!</span></li>
+      <li *ngIf="!href"><a href="#" (click)="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
   </div>
 
   <!-- Modal signin -->
-  <div class="modal fade" id="signin" role="dialog">
+  <div class="modal fade" id="signin" role="dialog" #signin>
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
@@ -32,17 +36,25 @@
         </div>
         <div class="modal-body">
           <h4>USING IT JOBS ACCOUNT</h4>
-          <div class="form-group">
-              <label for="usr">Email:</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="pwd">Password:</label>
-              <input type="password" class="form-control">
-            </div>
+          <p class="text-success" *ngIf="isSuccessLogin">Login successfully!</p>
+          <p class="text-danger" *ngIf="!isSuccessLogin">You are not login!</p>
+          <form [formGroup]="formLogin">
+            <div class="form-group" >
+                <label for="usr">Email:</label>
+                <input type="text" class="form-control" formControlName="userLoginEmail" placeholder="example@gmail.com">
+                <div *ngIf="shouldShowEmailUserWarming">
+                  <p class="text-danger">Email is required!</p>
+                </div>
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" formControlName="userLoginPassword" placeholder="password">
+                <div *ngIf="shouldShowPasswordUserWarming">
+                  <p class="text-danger">Password is required!</p>
+                </div>
+              </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" style="width: 100%">Sign in</button>
+          <button type="button" (click)="login()" class="btn btn-warning form-control" style="width: 100%" [disabled]="!formLogin.valid">Sign in</button>
           <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
           <br><br>
           <span>Don't have an account yet?</span><span><a data-dismiss="modal" data-target="#signup" data-toggle="modal"> Register now!</a></span>
@@ -63,21 +75,26 @@
           </div>
           <div class="modal-body">
             <h4>REGISTER USING EMAIL ADDRESS</h4>
-            <div class="form-group">
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="usr">Email:</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control">
-            </div>
+            <p class="text-success" *ngIf="isSuccessSignUp">Registry successfully!</p>
+            <p class="text-danger" *ngIf="!isSuccessSignUp">You are not registry!</p>
+            <form [formGroup]="formSignup">
+              <div class="form-group">
+                  <label for="usr">Name:</label>
+                  <input type="text" class="form-control" formControlName="userSignupName" placeholder="example">
+              </div>
+              <div class="form-group">
+                  <label for="usr">Email:</label>
+                  <input type="text" class="form-control" formControlName="userSignupEmail" placeholder="example@gamil.com">
+              </div>
+              <div class="form-group">
+                  <label for="pwd">Password:</label>
+                  <input type="password" class="form-control" formControlName="userSignupPassword" placeholder="password">
+              </div>
+              <pre>{{formSignup.value | json}}</pre>
+              </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning" style="width: 100%">Register</button>
+            <button type="button" class="btn btn-warning" style="width: 100%" (click)="signUp()">Register</button>
             <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
             <br><br>
             <span>Already have an account?</span><span><a data-dismiss="modal" data-target="#signin" data-toggle="modal"> Sign In</a></span>

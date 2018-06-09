@@ -13,12 +13,15 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { EmployersComponent } from './employers/employers.component';
 import { DetailComponent } from './detail/detail.component';
+
 import { CateService } from './service/cate.service';
+import { SigninSignupService } from './service/signin-signup.service';
 
 
 // reducers
 import { categoryReducer } from './ngrx/categoryReducer';
 import { jobsReducer } from './ngrx/jobsReducer';
+import { userReducer } from './ngrx/userReducer';
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -50,12 +53,13 @@ const routersConfig: Routes = [
     HttpModule,
     StoreModule.forRoot({
       category: categoryReducer,
-      jobs: jobsReducer
+      jobs: jobsReducer,
+      user: userReducer
     }),
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [CateService],
+  providers: [CateService, SigninSignupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

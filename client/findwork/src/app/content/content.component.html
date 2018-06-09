@@ -27,7 +27,8 @@
   <div class="container info">
     <span *ngIf="jobs?.length < 1">{{allJobs.length}} JOBS FOUND</span>
     <span *ngIf="jobs?.length > 0">{{jobs.length}} JOBS FOUND</span>
-    <span style="float: right; margin-left: 10px;">No save jobs</span>
+    <span style="float: right; margin-left: 10px;" *ngIf="jobUser?.length > 0">{{jobUser.length}} save jobs</span>
+    <span style="float: right; margin-left: 10px;" *ngIf="jobUser?.length < 1">No save jobs</span>
     <span style="float: right; margin-top: -5px; ">
       <i class="fa fa-heart fa-2x" aria-hidden="true" style="color: orange"></i>
     </span>
@@ -43,9 +44,16 @@
         <strong>{{job.title | uppercase}}</strong>
       </h4></a>
       <p>{{job.company | uppercase}} company</p>
-      <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
+      <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="isLogin">{{job.salary}}</p>
+      <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="!isLogin">Login to view salary</p>
       <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
-      <a routerLink="#" title="You should Log In to save job!">
+      <a *ngIf="!isLogin" title="You should Log In to save job!">
+        <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
+        <span style="float: right;">
+          <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+        </span>
+      </a>
+      <a *ngIf="isLogin" title="Save job!" (click)="saveJob(job._id)">
         <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
         <span style="float: right;">
           <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
@@ -59,13 +67,19 @@
     <div class="container detail" *ngFor="let job of jobs">
       <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
       <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
-        <a [routerLink]="['./detail']"><h4>
+        <a [routerLink]="['./detail', job._id]"><h4>
           <strong>{{job.title | uppercase}}</strong>
         </h4></a>
         <p>{{job.company | uppercase}} company</p>
         <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
         <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
-        <a routerLink="#" title="You should Log In to save job!">
+        <a routerLink="#" *ngIf="!isLogin" title="You should Log In to save job!">
+          <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
+          <span style="float: right;">
+            <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+          </span>
+        </a>
+        <a routerLink="#" *ngIf="isLogin" title="Save job!">
           <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
           <span style="float: right;">
             <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
@@ -74,23 +88,6 @@
       </div>
     </div>
     </div>
-    <!-- <div class="container detail" *ngFor="let job of jobs">
-        <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
-        <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
-          <h4>
-            <strong>{{job.title}}</strong>
-          </h4>
-          <p>FOODCONNECTION Company</p>
-          <p style="color: dodgerblue; margin-top: 35px; float: left;">Login to view salary</p>
-          <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
-          <a routerLink="#" title="You should Log In to save job!">
-            <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
-            <span style="float: right;">
-              <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
-            </span>
-          </a>
-        </div>
-      </div> -->
 
   <br>
   <br>

@@ -8,6 +8,7 @@ const SERVER_URL = 'http://localhost:3000/';
 @Injectable()
 export class CateService {
   location: string[] = ['HCM', 'HaNoi'];
+  searchWord: string;
 
   constructor(private http: Http, private store: Store<any>) { }
 

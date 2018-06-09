@@ -56,9 +56,10 @@ class User extends UserModel {
     }
 
     static async saveJob(idUser, idJob) {
-        const user = await User.findByIdAndUpdate(idUser, { $addToSet: { listjobuser: idJob } })
+        const user = await User.findByIdAndUpdate(idUser, { $addToSet: { listjobuser: idJob } }, {new: true})
         .catch(error => { throw new Error('Cannot find user.'); });
         if (!user) throw new MyError('Cannot find user.', 'CANNOT_FIND_USER', 404);
+        delete user.password;
 
         return user.toObject();
     }
