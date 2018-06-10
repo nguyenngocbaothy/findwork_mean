@@ -1,19 +1,19 @@
 <div class="content">
   <div class="container search">
     <div class="form-group" [formGroup]="formSearch">
-      <input type="text" class="form-control icon" style="width: 330px; float:left" placeholder="&#xf002; Enter job title, position" formControlName="search">
+      <input type="text" class="form-control icon" style="float: left; width: 330px;" placeholder="&#xf002; Enter job title, position" formControlName="search">
 
-      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;" formControlName="cate">
+      <select class="form-control icon" style="float: left;width: 330px; margin-left: 10px;" formControlName="cate">
         <option>All category</option>
         <option *ngFor="let category of categories">{{category.name}}</option>
       </select>
 
-      <select class="form-control icon" style="width: 330px; float: left; margin-left: 10px;" formControlName="loca">
+      <select class="form-control icon" style="float: left;width: 330px; margin-left: 10px;" formControlName="loca">
         <option value="All Location">All Location</option>
         <option *ngFor="let loca of location">{{loca}}</option>
       </select>
 
-      <button type="submit" (click)="onSubmitForm()" class="btn btn-warning" style="float: left; margin-left: 10px;">Find Job</button>
+      <button type="submit" (click)="onSubmitForm()" class="btn btn-warning col-md-1" style="float: left; margin-left: 10px;">Find Job</button>
     </div>
 
   </div>
@@ -37,31 +37,35 @@
   <br>
 
   <div *ngIf="jobs?.length < 1">
-  <div class="container detail" *ngFor="let job of allJobs">
-    <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
-    <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
-      <a [routerLink]="['./detail', job._id]"><h4>
-        <strong>{{job.title | uppercase}}</strong>
-      </h4></a>
-      <p>{{job.company | uppercase}} company</p>
-      <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="isLogin">{{job.salary}}</p>
-      <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="!isLogin">Login to view salary</p>
-      <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
-      <a *ngIf="!isLogin" title="You should Log In to save job!">
-        <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
-        <span style="float: right;">
-          <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
-        </span>
-      </a>
-      <a *ngIf="isLogin" title="Save job!" (click)="saveJob(job._id)">
-        <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
-        <span style="float: right;">
-          <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
-        </span>
-      </a>
+  <div *ngFor="let job of allJobs; let i = index">  
+    <div class="container detail" *ngIf="i<count">
+      <div>
+        <img src="assets/company.png" style="width: 150px; height:150px; background-color: white; margin-left: -15px; float:left">
+        <div style="float: left; margin-left: 20px; margin-top: 10px; width: 82%">
+          <a [routerLink]="['./detail', job._id]"><h4>
+            <strong>{{job.title | uppercase}}</strong>
+          </h4></a>
+          <p>{{job.company | uppercase}} company</p>
+          <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="isLogin">{{job.salary}} $</p>
+          <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="!isLogin">Login to view salary</p>
+          <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
+          <a *ngIf="!isLogin" title="You should Log In to save job!">
+            <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
+            <span style="float: right;">
+              <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+            </span>
+          </a>
+          <a *ngIf="isLogin" title="Save job!" (click)="saveJob(job._id)">
+            <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
+            <span style="float: right;">
+              <i class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-  </div>
+</div>
 
   <div *ngIf="jobs?.length > 0">
     <div class="container detail" *ngFor="let job of jobs">
@@ -93,7 +97,7 @@
   <br>
 
   <div class="container" align="center">
-    <ul class="pagination pagination-lg">
+    <!-- <ul class="pagination pagination-lg">
       <li>
         <a routerLink="#" routerLinkActive="active">1</a>
       </li>
@@ -109,6 +113,9 @@
       <li>
         <a routerLink="#" routerLinkActive="active">5</a>
       </li>
-    </ul>
+    </ul> -->
+    <button type="button" class="btn btn-warning" style="width: 50%" (click)="viewMore()">Click to have more job</button>
+    <br><br>
   </div>
+
 </div>

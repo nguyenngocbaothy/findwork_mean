@@ -13,3 +13,15 @@ export interface User {
         _id: string;
     };
 }
+
+export interface Employer {
+    success: string;
+    employer: {
+        email: string;
+        address?: string;
+        phone?: number;
+        name: string;
+        token: string;
+        job: [string];
+    };
+}

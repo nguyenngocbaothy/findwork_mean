@@ -18,8 +18,8 @@ export class MenuComponent implements OnInit {
   formLogin: FormGroup;
   formSignup: FormGroup;
   userInfo: User;
-  isSuccessLogin: any = false;
-  isSuccessSignUp: any = false;
+  isSuccessLogin: any = 0;
+  isSuccessSignUp: any = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +33,7 @@ export class MenuComponent implements OnInit {
     }
     this.user.isSuccess.subscribe(isLogin => {
       this.isSuccessLogin = isLogin;
+      console.log(this.isSuccessLogin);
     });
   }
 
@@ -97,7 +98,7 @@ export class MenuComponent implements OnInit {
 
   signUp() {
     console.log(this.formSignup.value.userSignupName, this.formSignup.value.userSignupEmail, this.formSignup.value.userSignupPassword);
-    this.user.signIn(this.formSignup.value.userSignupName, this.formSignup.value.userSignupEmail, this.formSignup.value.userSignupPassword);
+    this.user.signUp(this.formSignup.value.userSignupName, this.formSignup.value.userSignupEmail, this.formSignup.value.userSignupPassword);
     this.store.select('user').subscribe(data => {
       console.log(data);
       if (data.success) {
@@ -107,6 +108,21 @@ export class MenuComponent implements OnInit {
         this.isSuccessSignUp = false;
       }
     });
+  }
+
+  get shouldShowEmailUserSignUpWarming() {
+    const eControl = this.formSignup.get('userSignupEmail');
+    return eControl.invalid && eControl.touched;
+  }
+
+  get shouldShowNameUserSignUpWarming() {
+    const nControl = this.formSignup.get('userSignupName');
+    return nControl.invalid && nControl.touched;
+  }
+
+  get shouldShowPasswordUserSignUpWarming() {
+    const pControl = this.formSignup.get('userSignupPassword');
+    return pControl.invalid && pControl.touched;
   }
 
 }

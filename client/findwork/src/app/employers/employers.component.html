@@ -27,26 +27,40 @@
       
         <!-- Modal content-->
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Join Thousands Of Companies That Use VietnamWorks Every Day</h4>
-          </div>
-          <div class="modal-body">
-              <div class="form-group">
-                  <label for="usr">Name:</label>
-                  <input type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="usr">Email:</label>
-                  <input type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="pwd">Password:</label>
-                  <input type="password" class="form-control">
-              </div>
-          </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Join Thousands Of Companies That Use VietnamWorks Every Day</h4>
+            </div>
+            <form [formGroup]="formSignupEmployer">
+                <div class="modal-body"> 
+                    <p *ngIf="isSuccessSignup === 0" class="text-warning">You are not sign up!</p>
+                    <p *ngIf="isSuccessSignup" class="text-success">Sign up successfully!</p>
+                    <p *ngIf="isSuccessSignup === false" class="text-danger">Sign up error! Maybe your account is existed</p>
+                    <div class="form-group">
+                        <label for="usr">Name:</label>
+                        <input type="text" class="form-control" formControlName="employerSignupName" placeholder="example">
+                    </div>
+                    <div *ngIf="shouldShowNameEmployerSignUpWarming">
+                        <p class="text-danger">Name is required!</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Email:</label>
+                        <input type="text" class="form-control" formControlName="employerSignupEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div *ngIf="shouldShowEmailEmployerSignUpWarming">
+                        <p class="text-danger">Email is required!</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password:</label>
+                        <input type="password" class="form-control" formControlName="employerSignupPassword" placeholder="password">
+                    </div>
+                    <div *ngIf="shouldShowPasswordEmployerSignUpWarming">
+                        <p class="text-danger">Password is required!</p>
+                    </div>
+                </div>
+            </form> 
           <div class="modal-footer">
-              <button type="button" class="btn btn-warning" style="width: 100%">Register</button>
+              <button type="button" class="btn btn-warning" style="width: 100%" (click)="Employersignup()" [disabled]="!formSignupEmployer.valid">Register</button>
               <br><br>
               <span>Already have an account?</span><span><a data-dismiss="modal" data-target="#signine" data-toggle="modal"> Sign In</a></span>
           </div>
@@ -71,20 +85,31 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Sign In Now To Access Your Dashboard</h4>
               </div>
-              <div class="modal-body">
-                  <div class="form-group">
-                      <label for="usr">Email:</label>
-                      <input type="text" class="form-control">
-                  </div>
-                  <div class="form-group">
-                      <label for="pwd">Password:</label>
-                      <input type="password" class="form-control">
-                  </div>
-              </div>
+              <form [formGroup]="formSigninEmployer">
+                <div class="modal-body">
+                    <p *ngIf="isSuccessSignin === 0" class="text-warning">You are not signin!</p>
+                    <p *ngIf="isSuccessSignin" class="text-success">Signin successfully!</p>
+                    <p *ngIf="isSuccessSignin === false" class="text-danger">Signin error! Please check your infomation.</p> 
+                    <div class="form-group">
+                        <label for="usr">Email:</label>
+                        <input type="text" class="form-control" formControlName="employerSigninEmail" placeholder="example@gmail.com">
+                    </div>
+                    <div *ngIf="shouldShowEmailEmployerSignInWarming">
+                        <p class="text-danger">Email is required!</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password:</label>
+                        <input type="password" class="form-control" formControlName="employerSigninPassword" placeholder="password">
+                    </div>
+                    <div *ngIf="shouldShowPasswordEmployerSignInWarming">
+                        <p class="text-danger">Email is required!</p>
+                    </div>
+                </div>
+             </form>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-warning" style="width: 100%">Sign in</button>
+                  <button type="button" class="btn btn-warning" style="width: 100%" (click)="Employersignin()" [disabled]="!formSigninEmployer.valid">Sign in</button>
                   <br><br>
-                  <span>Don't have an account yet?</span><span><a data-dismiss="modal" data-target="#signupe" data-toggle="modal"> Register now!</a></span>
+                  <span>Don't have an account yet?</span><span><a data-dismiss="modal" data-target="#signupe" data-toggle="modal" > Register now!</a></span>
               </div>
             </div>
             

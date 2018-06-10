@@ -8,13 +8,13 @@ const SERVER_URL = 'http://localhost:3000/';
 
 @Injectable()
 export class SigninSignupService {
-  isSuccessLogin = new BehaviorSubject<Boolean> (false);
+  isSuccessLogin = new BehaviorSubject<any> (0);
 
   constructor(private http: Http, private store: Store<any>) {
     if (localStorage.getItem('token')) {
       this.setSuccess(true);
     } else {
-      this.setSuccess(false);
+      // this.setSuccess(false);
     }
   }
 
@@ -55,7 +55,7 @@ export class SigninSignupService {
     }
   }
 
-  signIn(name, email, password) {
+  signUp(name, email, password) {
     return this.http.post(SERVER_URL + 'user/signup', {email, password, name} ).toPromise()
     .then(res => {
       console.log(res.json());
@@ -65,5 +65,29 @@ export class SigninSignupService {
       console.log(err.json());
     });
   }
+
+  // EMPLOYER
+  SignupEmployer(name, email, password) {
+    return this.http.post(SERVER_URL + 'employer/signup', {email, password, name, address: 'unknown', phone: 0} ).toPromise()
+    .then(res => {
+      this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
+    })
+    .catch(err => {
+      console.log(err.json());
+    });
+  }
+
+  SigninEmployer(email, password) {
+    return this.http.post(SERVER_URL + 'employer/signin', {email, password} ).toPromise()
+    .then(res => {
+      this.setSuccess(true);
+      this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
+    })
+    .catch(err => {
+      console.log(err.json());
+      this.setSuccess(false);
+    });
+  }
+
 
 }

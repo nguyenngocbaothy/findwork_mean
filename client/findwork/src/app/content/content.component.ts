@@ -13,9 +13,10 @@ import { SigninSignupService } from '../service/signin-signup.service';
 export class ContentComponent implements OnInit {
   categories: Category[] = [];
   location: string[] = [];
-  jobs: any[];
-  allJobs: any[];
-  jobUser: any[];
+  jobs: any[]; // jobs when search
+  allJobs: any[]; // all jobs
+  jobUser: any[]; // list job user when login
+  count = 1; // count number of item per page
 
   searchWord: string;
 
@@ -28,6 +29,7 @@ export class ContentComponent implements OnInit {
     this.store.select('category').subscribe(categories => this.categories = categories);
     this.store.select('jobs').subscribe(jobs => {
       this.allJobs = jobs;
+      this.allJobs.reverse();
     });
 
     // this.formSearch.controls['search'].setValue(this.cate.searchWord);
@@ -62,6 +64,10 @@ export class ContentComponent implements OnInit {
       this.jobUser = jobUser;
       console.log(this.jobUser.length);
     });
+  }
+
+  viewMore() {
+    this.count++;
   }
 
 }
