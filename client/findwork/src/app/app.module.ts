@@ -34,7 +34,7 @@ const routersConfig: Routes = [
     // ]
   },
   { path: 'employers', component: EmployersComponent },
-  { path: 'alljobs/detail/:id', component: DetailComponent, pathMatch: 'full' }
+  { path: 'detail/:id', component: DetailComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

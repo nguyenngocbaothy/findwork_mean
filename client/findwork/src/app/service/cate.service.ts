@@ -19,7 +19,7 @@ export class CateService {
       this.store.dispatch({ type: 'GET_CATEGORIES', categories: res.json().categories });
 
     })
-    .catch(err => console.log(err.json()));
+    .catch(err => console.log(err));
   }
 
   search(key, cate, loca) {
@@ -33,7 +33,7 @@ export class CateService {
       .then(res => {
         this.store.dispatch({ type: 'GET_JOBS', jobs: res.json().job });
       })
-      .catch(err => console.log(err.json()));
+      .catch(err => console.log(err));
   }
 
   getAllJobs() {
@@ -41,7 +41,7 @@ export class CateService {
     .then(res => {
       this.store.dispatch({ type: 'GET_ALL_JOBS', jobs: res.json().newJob });
     })
-    .catch(err => console.log(err.json()));
+    .catch(err => console.log(err));
   }
 
   getJobById(jobId) {
@@ -50,7 +50,7 @@ export class CateService {
       // console.log(res.json());
       this.store.dispatch({ type: 'GET_JOB', jobs: res.json().newJob });
     })
-    .catch(err => console.log(err.json()));
+    .catch(err => console.log(err));
   }
 
   getCategoryById(cateId) {
@@ -58,7 +58,7 @@ export class CateService {
     .then(res => {
       this.store.dispatch({ type: 'GET_CATEGORY', category: res.json().category });
     })
-    .catch(err => console.log(err.json()));
+    .catch(err => console.log(err));
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CateService } from '../service/cate.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { SigninSignupService } from '../service/signin-signup.service';
 
 @Component({
   selector: 'app-detail',
@@ -11,26 +12,47 @@ import { Store } from '@ngrx/store';
 export class DetailComponent implements OnInit {
   job = {};
   category = {};
-  isJob = false;
+  hasLoad = false;
+  isLogin: any = false;
 
-  constructor(private cate: CateService, private activeRoute: ActivatedRoute, private store: Store<any>) {
-    this.store.select('jobs').subscribe(job => {
-      this.job = job;
-      this.cate.getCategoryById(job.category);
-      if ( this.job !== null) {
-        this.isJob = true;
-      }
-    });
-
-    this.store.select('category').subscribe(category => {
-      this.category = category;
-      console.log(this.category);
+  constructor(
+    private cate: CateService,
+    private activeRoute: ActivatedRoute,
+    private store: Store<any>,
+    private user: SigninSignupService
+  ) {
+    const routeParams = this.activeRoute.snapshot.params;
+    if (!routeParams) {
+      return;
+    }
+    this.cate.getJobById(routeParams.id).then(() => {
+      this.getData();
     });
   }
 
   ngOnInit() {
-    const routeParams = this.activeRoute.snapshot.params;
-    this.cate.getJobById(routeParams.id);
+    this.user.isSuccess.subscribe(isLogin => {
+      this.isLogin = isLogin;
+  });
+  }
+
+  isEmptyObject(obj) {
+    return (obj && (Object.keys(obj).length === 0));
+  }
+
+  getData() {
+    this.store.select('jobs').subscribe(job => {
+      this.job = job;
+      if (!(this.job && (Object.keys(this.job).length === 0))) {
+        this.cate.getCategoryById(job.category);
+      }
+    });
+
+    if (!(this.job && (Object.keys(this.job).length === 0))) {
+      this.store.select('category').subscribe(category => {
+        this.category = category;
+      });
+    }
   }
 
 }

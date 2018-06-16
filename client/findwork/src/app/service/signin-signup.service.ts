@@ -22,7 +22,7 @@ export class SigninSignupService {
     return this.isSuccessLogin.asObservable();
   }
 
-  public setSuccess(newValue: boolean) {
+  public setSuccess(newValue) {
     this.isSuccessLogin.next(newValue);
   }
 
@@ -31,10 +31,10 @@ export class SigninSignupService {
     .then(res => {
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
       this.setSuccess(true);
-      console.log(this.isSuccessLogin);
+      console.log(res.json());
     })
     .catch(err => {
-      console.log(err.json());
+      console.log(err);
       this.setSuccess(false);
     });
   }
@@ -50,7 +50,7 @@ export class SigninSignupService {
         this.store.dispatch({ type: 'SAVE_JOB', user: res.json().user.listjobuser });
       })
       .catch(err => {
-        console.log(err.json());
+        console.log(err);
       });
     }
   }
@@ -62,7 +62,7 @@ export class SigninSignupService {
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
     })
     .catch(err => {
-      console.log(err.json());
+      console.log(err);
     });
   }
 
@@ -73,7 +73,7 @@ export class SigninSignupService {
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
     })
     .catch(err => {
-      console.log(err.json());
+      console.log(err);
     });
   }
 
@@ -84,7 +84,7 @@ export class SigninSignupService {
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
     })
     .catch(err => {
-      console.log(err.json());
+      console.log(err);
       this.setSuccess(false);
     });
   }

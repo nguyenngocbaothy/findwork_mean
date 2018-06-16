@@ -6,8 +6,9 @@
       <div style="float: left; margin-top: 20px; width: 900px; height: 170px;">
         <h2>{{job.title | uppercase}}</h2>
         <p>{{job.company}} company - {{job.location}}</p>
-        <p style="color:#33c3d6">Login to view salary</p>
-        <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" style="float: right; margin-top: -80px;">Apply Now</button>
+        <p style="color: dodgerblue; margin-top: 0px; float: left;" *ngIf="isLogin">{{job.salary}} $</p>
+        <p style="color: dodgerblue; margin-top: 0px; float: left;" *ngIf="!isLogin">Login to view salary</p>
+        <button [disabled]="!isLogin" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" style="float: right; margin-top: -80px;">Apply Now</button>
       </div>
     </div>
 
@@ -28,15 +29,15 @@
           <form>
             <div class="form-group">
               <label for="">Name:</label>
-              <input type="text" class="form-control" id="" autofocus placeholder="your name">
+              <input type="text" class="form-control" autofocus placeholder="your name">
             </div>
             <div class="form-group">
               <label for="">Email:</label>
-              <input type="email" class="form-control" id="" placeholder="example@gmail.com">
+              <input type="email" class="form-control" placeholder="example@gmail.com">
             </div>
             <div class="form-group">
               <label for="">What skills, work projects or achievements make you a strong candidate? (Recommended):</label>
-              <textarea class="form-control" rows="5" id="" placeholder="some text to introduce yourself"></textarea>
+              <textarea class="form-control" rows="5" placeholder="some text to introduce yourself"></textarea>
             </div>
           </form>
         </div>
@@ -53,10 +54,10 @@
     <div class="detail">
       <div class="col-md-7">
         <h3>WHAT WE CAN OFFER</h3>
-        <p *ngIf="isJob">
+        <p *ngIf="!isEmptyObject(job)">
           {{job.detail.benefit}}
         </p>
-        <p *ngIf="!isJob">
+        <p *ngIf="isEmptyObject(job)">
           Job Benefit
         </p>
 
@@ -91,7 +92,7 @@
         overflow: hidden;
       ">
         <p>JOB CATEGORY</p>
-        <p>{{category.name}}</p>
+        <p *ngIf="(category | json) != '{}'">{{category.name}}</p>
         <hr>
         <p>JOB CATEGORY</p>
         <p>IT - Software ,  IT - Hardware/Networking</p>

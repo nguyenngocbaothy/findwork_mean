@@ -19,7 +19,7 @@
 </h1>
 <div class="btnSignup">
     <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupe">Sign Up</button>
+    <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupe">Sign Up</button>
   
     <!-- Modal signup -->
     <div class="modal fade" id="signupe" role="dialog">
@@ -73,7 +73,7 @@
 
 <div class="btnSignin">
       <!-- Trigger the modal with a button -->
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signine">Sign In</button>
+      <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signine">Sign In</button>
   
       <!-- Modal signup -->
       <div class="modal fade" id="signine" role="dialog">
@@ -118,7 +118,8 @@
       
     </div> 
   
-
+    <div>
+    </div>
 
 
 

@@ -94,6 +94,7 @@ export class MenuComponent implements OnInit {
     localStorage.removeItem('token');
     this.user.setSuccess(false);
     this.route.navigate(['home']);
+    this.user.setSuccess(0);
   }
 
   signUp() {

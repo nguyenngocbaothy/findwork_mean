@@ -27,6 +27,7 @@ export class EmployersComponent implements OnInit {
   ) {
     if (localStorage.getItem('token')) {
       this.isSuccessSignin = true;
+      this.employerService.setSuccess(true);
     }
    }
 
