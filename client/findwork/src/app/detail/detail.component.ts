@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
     this.cate.getJobById(routeParams.id).subscribe((data) => {
       this.job = data.json().newJob;
       console.log(this.job);
-      // this.getData();
+      this.getData();
     });
   }
 
@@ -44,15 +44,16 @@ export class DetailComponent implements OnInit {
     //   this.job = job;
     //   console.log(job);
       if (Object.keys(this.job).length !== 0) {
-        this.cate.getCategoryById(this.job.category);
-      }
+        this.cate.getCategoryById(this.job.category).subscribe(category => {
+          this.category = category.json();
+        });
     // });
 
     // if (Object.keys(this.job).length !== 0) {
-      this.store.select('category').subscribe(category => {
-        this.category = category;
-        console.log(this.category);
-      });
+      // this.store.select('category').subscribe(category => {
+      //   this.category = category;
+      //   console.log(this.category);
+      // });
     // }
   }
 

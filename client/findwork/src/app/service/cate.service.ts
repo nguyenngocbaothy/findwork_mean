@@ -55,11 +55,12 @@ export class CateService {
   }
 
   getCategoryById(cateId) {
-    return this.http.get(SERVER_URL + 'category/' + cateId).toPromise()
-    .then(res => {
-      this.store.dispatch({ type: 'GET_CATEGORY', category: res.json().category });
-    })
-    .catch(err => console.log(err));
+    return this.http.get(SERVER_URL + 'category/' + cateId);
+    // .toPromise()
+    // .then(res => {
+    //   this.store.dispatch({ type: 'GET_CATEGORY', category: res.json().category });
+    // })
+    // .catch(err => console.log(err));
   }
 
 }
