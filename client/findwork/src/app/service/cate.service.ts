@@ -45,12 +45,13 @@ export class CateService {
   }
 
   getJobById(jobId) {
-    return this.http.get(SERVER_URL + 'job/getjob/' + jobId).toPromise()
-    .then(res => {
-      // console.log(res.json());
-      this.store.dispatch({ type: 'GET_JOB', jobs: res.json().newJob });
-    })
-    .catch(err => console.log(err));
+    return this.http.get(SERVER_URL + 'job/getjob/' + jobId);
+    // .toPromise()
+    // .then(res => {
+    //   // console.log(res.json());
+    //   this.store.dispatch({ type: 'GET_JOB', jobs: res.json().newJob });
+    // })
+    // .catch(err => console.log(err));
   }
 
   getCategoryById(cateId) {

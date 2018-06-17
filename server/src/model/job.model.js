@@ -177,7 +177,7 @@ class Job extends JobModel {
     }
 
     static async getAll() {
-        const job = await Job.find({})
+        const job = await Job.find({}).sort({_id: -1})
         .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
         if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
 

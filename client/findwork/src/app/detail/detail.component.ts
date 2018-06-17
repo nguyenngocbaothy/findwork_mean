@@ -3,6 +3,7 @@ import { CateService } from '../service/cate.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SigninSignupService } from '../service/signin-signup.service';
+import { Category } from '.././types';
 
 @Component({
   selector: 'app-detail',
@@ -10,8 +11,8 @@ import { SigninSignupService } from '../service/signin-signup.service';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
-  job = {};
-  category = {};
+  job: any;
+  category: Category;
   hasLoad = false;
   isLogin: any = false;
 
@@ -25,8 +26,10 @@ export class DetailComponent implements OnInit {
     if (!routeParams) {
       return;
     }
-    this.cate.getJobById(routeParams.id).then(() => {
-      this.getData();
+    this.cate.getJobById(routeParams.id).subscribe((data) => {
+      this.job = data.json().newJob;
+      console.log(this.job);
+      // this.getData();
     });
   }
 
@@ -36,23 +39,21 @@ export class DetailComponent implements OnInit {
   });
   }
 
-  isEmptyObject(obj) {
-    return (obj && (Object.keys(obj).length === 0));
-  }
-
   getData() {
-    this.store.select('jobs').subscribe(job => {
-      this.job = job;
-      if (!(this.job && (Object.keys(this.job).length === 0))) {
-        this.cate.getCategoryById(job.category);
+    // this.store.select('jobs').subscribe(job => {
+    //   this.job = job;
+    //   console.log(job);
+      if (Object.keys(this.job).length !== 0) {
+        this.cate.getCategoryById(this.job.category);
       }
-    });
+    // });
 
-    if (!(this.job && (Object.keys(this.job).length === 0))) {
+    // if (Object.keys(this.job).length !== 0) {
       this.store.select('category').subscribe(category => {
         this.category = category;
+        console.log(this.category);
       });
-    }
+    // }
   }
 
 }

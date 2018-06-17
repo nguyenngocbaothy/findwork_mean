@@ -4,9 +4,9 @@
     <div class="title">
       <img src="assets/company.png" alt="" style="padding: 20px; float: left;">
       <div style="float: left; margin-top: 20px; width: 900px; height: 170px;">
-        <h2>{{job.title | uppercase}}</h2>
-        <p>{{job.company}} company - {{job.location}}</p>
-        <p style="color: dodgerblue; margin-top: 0px; float: left;" *ngIf="isLogin">{{job.salary}} $</p>
+        <h2 *ngIf="job!==undefined">{{job.title | uppercase}}</h2>
+        <p *ngIf="job!==undefined">{{job.company}} company - {{job.location}}</p>
+        <p style="color: dodgerblue; margin-top: 0px; float: left;" *ngIf="isLogin && job!==undefined">{{job.salary}} $</p>
         <p style="color: dodgerblue; margin-top: 0px; float: left;" *ngIf="!isLogin">Login to view salary</p>
         <button [disabled]="!isLogin" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" style="float: right; margin-top: -80px;">Apply Now</button>
       </div>
@@ -23,7 +23,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 class="modal-title">APPLY FOR {{job.title | uppercase}} AT {{job.company | uppercase}} COMPANY</h3>
+          <h3 class="modal-title" *ngIf="job!==undefined">APPLY FOR {{job.title | uppercase}} AT {{job.company | uppercase}} COMPANY</h3>
         </div>
         <div class="modal-body">
           <form>
@@ -54,11 +54,11 @@
     <div class="detail">
       <div class="col-md-7">
         <h3>WHAT WE CAN OFFER</h3>
-        <p *ngIf="!isEmptyObject(job)">
+        <p *ngIf="job!==undefined">
           {{job.detail.benefit}}
         </p>
-        <p *ngIf="isEmptyObject(job)">
-          Job Benefit
+        <p *ngIf="job===undefined">
+          Benefit
         </p>
 
 
@@ -66,22 +66,22 @@
         <br>
 
         <h3>JOB DESCRIPTION</h3>
-        <p *ngIf="isJob">
+        <p *ngIf="job!==undefined">
           {{job.detail.description}}
         </p>
-        <p *ngIf="!isJob">
-          Job Description
+        <p *ngIf="job===undefined">
+          Description
         </p>
 
         <br>
         <br>
 
         <h3>JOB REQUIREMENTS</h3>
-        <p *ngIf="isJob">
+        <p *ngIf="job!==undefined">
           {{job.detail.requirement}}
         </p>
-        <p *ngIf="!isJob">
-          Job Requirement
+        <p *ngIf="job===undefined">
+          Requirement
         </p>
       </div>
 
@@ -92,7 +92,8 @@
         overflow: hidden;
       ">
         <p>JOB CATEGORY</p>
-        <p *ngIf="(category | json) != '{}'">{{category.name}}</p>
+        <!-- <p *ngIf="(category | json) != '{}'">{{category.name}}</p> -->
+        <p *ngIf="category!==undefined">{{category.name}}</p>
         <hr>
         <p>JOB CATEGORY</p>
         <p>IT - Software ,  IT - Hardware/Networking</p>

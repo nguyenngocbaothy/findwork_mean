@@ -82,6 +82,7 @@ export class ContentComponent implements OnInit {
 
   viewMore() {
     this.count++;
+    console.log(this.count);
   }
 
 }
