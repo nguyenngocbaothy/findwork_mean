@@ -9,14 +9,20 @@
   <font size="4">
     <strong>
     <span style="float:left; color: white"><i class="fa fa-phone" aria-hidden="true"></i> HN: </span>
-    <span class="dt" style="float:left"> (84 24) 3944 0568</span> 
+    <span class="dt" style="float:left"> (84 24) 3944 0568</span>
   </strong>
   </font> 
+
+  <button  *ngIf="isSuccessSignin" style="margin-top: -10px; margin-left: 10px; border: 1px solid white;
+  border-radius: 20px;" type="button" class="btn btn-info btn-lg" (click)="postjob()">POST JOB</button>
 </div>
 <h1 class="info2">
     Helping Your Business Move Up<br>
     Get Your Job Matched With The Right Candidate
 </h1>
+
+
+
 <div class="btnSignup">
     <!-- Trigger the modal with a button -->
     <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupe">Sign Up</button>

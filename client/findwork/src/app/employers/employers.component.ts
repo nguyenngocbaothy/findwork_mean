@@ -23,7 +23,8 @@ export class EmployersComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private employerService: SigninSignupService,
-    private store: Store<any>
+    private store: Store<any>,
+    private route: Router
   ) {
     if (localStorage.getItem('token')) {
       this.isSuccessSignin = true;
@@ -103,6 +104,10 @@ export class EmployersComponent implements OnInit {
   get shouldShowPasswordEmployerSignInWarming() {
     const pControl = this.formSigninEmployer.get('employerSigninPassword');
     return pControl.invalid && pControl.touched;
+  }
+
+  postjob() {
+    this.route.navigate(['/postjob']);
   }
 
 }

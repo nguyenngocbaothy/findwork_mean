@@ -83,8 +83,6 @@ export class SigninSignupService {
     .then(res => {
       this.setSuccess(true);
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
-      this.route.navigateByUrl('/postjob');
-      // window.location.reload();
     })
     .catch(err => {
       console.log(err);
