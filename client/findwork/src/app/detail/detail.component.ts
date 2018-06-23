@@ -46,6 +46,7 @@ export class DetailComponent implements OnInit {
       if (Object.keys(this.job).length !== 0) {
         this.cate.getCategoryById(this.job.category).subscribe(category => {
           this.category = category.json();
+          console.log(this.category);
         });
     // });
 
@@ -57,4 +58,5 @@ export class DetailComponent implements OnInit {
     // }
   }
 
+  }
 }

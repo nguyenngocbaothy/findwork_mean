@@ -64,11 +64,13 @@ class Employer extends EmployerModel {
     }
 
     static async check(idUser) {
-        const employer = await Employer.findById(idUser);
+        const employer = await Employer.findById(idUser)
+        .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
         if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
         const employerInfo = employer.toObject();
-        const token = await sign({ _id: user._id });
+        const token = await sign({ _id: employerInfo._id });
         employerInfo.token = token;
+        employerInfo.role = 'employer';
         delete employerInfo.password;
         return employerInfo;
     }

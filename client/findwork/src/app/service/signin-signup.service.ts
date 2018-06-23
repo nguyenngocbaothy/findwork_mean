@@ -3,6 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router/';
 
 const SERVER_URL = 'http://localhost:3000/';
 
@@ -10,7 +11,7 @@ const SERVER_URL = 'http://localhost:3000/';
 export class SigninSignupService {
   isSuccessLogin = new BehaviorSubject<any> (0);
 
-  constructor(private http: Http, private store: Store<any>) {
+  constructor(private http: Http, private store: Store<any>, private route: Router) {
     if (localStorage.getItem('token')) {
       this.setSuccess(true);
     } else {
@@ -82,6 +83,8 @@ export class SigninSignupService {
     .then(res => {
       this.setSuccess(true);
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
+      this.route.navigateByUrl('/postjob');
+      // window.location.reload();
     })
     .catch(err => {
       console.log(err);

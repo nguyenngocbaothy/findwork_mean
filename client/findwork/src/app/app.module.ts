@@ -13,15 +13,19 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { EmployersComponent } from './employers/employers.component';
 import { DetailComponent } from './detail/detail.component';
+import { PostjobComponent } from './postjob/postjob.component';
+import { FindjobComponent } from './findjob/findjob.component';
 
 import { CateService } from './service/cate.service';
 import { SigninSignupService } from './service/signin-signup.service';
+import { GuardGuard } from './service/guard.guard';
 
 
 // reducers
 import { categoryReducer } from './ngrx/categoryReducer';
 import { jobsReducer } from './ngrx/jobsReducer';
 import { userReducer } from './ngrx/userReducer';
+
 
 const routersConfig: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -34,7 +38,12 @@ const routersConfig: Routes = [
     // ]
   },
   { path: 'employers', component: EmployersComponent },
-  { path: 'detail/:id', component: DetailComponent, pathMatch: 'full' }
+  { path: 'detail/:id', component: DetailComponent, pathMatch: 'full' },
+  { path: 'postjob', component: PostjobComponent,
+    canActivate: [GuardGuard],
+    data: {roles: ['employer']}
+  },
+  { path: 'findjob', component: FindjobComponent },
 ];
 
 @NgModule({
@@ -45,7 +54,9 @@ const routersConfig: Routes = [
     FooterComponent,
     ContentComponent,
     EmployersComponent,
-    DetailComponent
+    DetailComponent,
+    PostjobComponent,
+    FindjobComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +70,7 @@ const routersConfig: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [CateService, SigninSignupService],
+  providers: [CateService, SigninSignupService, GuardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
