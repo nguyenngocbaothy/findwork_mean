@@ -23,27 +23,59 @@ export class GuardGuard implements CanActivate, OnInit {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.checkToken()) {
       console.log('not token');
+      this.route.navigateByUrl('/home');
       return false;
     }
-    return this.getData().map(auth => {
-      if (auth) {
-        const role = next.data['roles'] as Array<string>;
-        if (auth.json().employer.role.indexOf(role) !== -1) {
-          console.log('authenticated');
-          return true;
+
+    const role = next.data['roles'] as Array<string>;
+    console.log(role[0]);
+    if (role[0] === 'employer') {
+      return this.getData('employer')
+      .map(auth => {
+        console.log(auth.json().success);
+        if (auth.json().success) {
+          if (auth.json().employer.role.indexOf(role) !== -1) {
+            console.log('authenticated');
+            return true;
+          }
+          this.route.navigateByUrl('/home');
+          return false;
         }
-        this.route.navigateByUrl('/login');
+        console.log('not authenticated');
+        this.route.navigateByUrl('/home');
         return false;
-      }
-      console.log('not authenticated');
-      this.route.navigateByUrl('/login');
-      return false;
-    });
+      }).toPromise()
+      .catch(err => {
+        console.log('do not permission');
+        this.route.navigateByUrl('/home');
+        return false;
+      });
+    } else {
+      return this.getData('user').map(auth => {
+        console.log(auth.json());
+        if (auth) {
+          if (auth.json().user.role.indexOf(role) !== -1) {
+            console.log('user authenticated');
+            return true;
+          }
+          this.route.navigateByUrl('/home');
+          return false;
+        }
+        console.log('user not authenticated');
+        this.route.navigateByUrl('/home');
+        return false;
+      }).toPromise()
+      .catch(err => {
+        console.log('do not permission');
+        this.route.navigateByUrl('/employers');
+        return false;
+      });
+    }
   }
 
-  getData() {
+  getData(role) {
     const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-    return this.http.post('http://localhost:3000' + '/employer/check', {}, { headers });
+    return this.http.post('http://localhost:3000' + '/' + role + '/check', {}, { headers });
   }
 
   public checkToken(): boolean {

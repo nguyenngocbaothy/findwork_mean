@@ -51,6 +51,7 @@ class User extends UserModel {
         const userInfo = user.toObject();
         const token = await sign({ _id: user._id });
         userInfo.token = token;
+        userInfo.role = 'user';
         delete userInfo.password;
         return userInfo;
     }

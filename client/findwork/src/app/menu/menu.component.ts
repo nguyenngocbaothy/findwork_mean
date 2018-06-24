@@ -95,6 +95,7 @@ export class MenuComponent implements OnInit {
     this.user.setSuccess(false);
     this.route.navigate(['home']);
     this.user.setSuccess(0);
+    window.location.reload();
   }
 
   signUp() {

@@ -43,7 +43,10 @@ const routersConfig: Routes = [
     canActivate: [GuardGuard],
     data: {roles: ['employer']}
   },
-  { path: 'findjob', component: FindjobComponent },
+  { path: 'findjob', component: FindjobComponent,
+  canActivate: [GuardGuard],
+  data: {roles: ['user']}
+  },
 ];
 
 @NgModule({
