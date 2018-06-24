@@ -90,18 +90,6 @@ export class GuardGuard implements CanActivate, OnInit {
       return false;
     }
     return true;
-    //   .subscribe(data => {
-    //     console.log(data.json());
-    //     if (data.json().success === false) {
-    //       this.isAuth = false;
-    //     } else {
-    //       const userRole = data.json().employer.role;
-    //       // if (userRole.indexOf(this.role[0]) !== -1) {
-    //       //   console.log(userRole.indexOf(this.role[0]) !== -1);
-    //         this.isAuth = true;
-    //       // }
-    //     }
-    //     return this.isAuth;
-    // });
   }
+
 }

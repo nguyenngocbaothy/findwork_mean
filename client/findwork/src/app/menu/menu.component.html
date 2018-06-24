@@ -26,6 +26,7 @@
     <ul class="nav navbar-nav navbar-right" *ngIf="isSuccessLogin" style="margin-top: 24px;">
       <li *ngIf="!href" style="margin-right: 200px;"><span *ngIf="isSuccessLogin">WELLCOME TO MY APP!</span></li>
       <li *ngIf="!href"><a (click)="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      <li *ngIf="!href"><a [routerLink]="['/findjob']"><span class="glyphicon glyphicon-log-in"></span> Your Job</a></li>
 
       <li *ngIf="href" style="margin-right: 200px;"><span *ngIf="isSuccessLogin">WELLCOME TO MY APP!</span></li>
       <li *ngIf="href"><a (click)="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
