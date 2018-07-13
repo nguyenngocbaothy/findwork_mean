@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SigninSignupService } from '../service/signin-signup.service';
+import { JobsService } from '../service/jobs.service';
 import { Store } from '@ngrx/store';
 import { Employer } from '../types';
 import { Router } from '@angular/router';
@@ -24,7 +25,8 @@ export class EmployersComponent implements OnInit {
     private fb: FormBuilder,
     private employerService: SigninSignupService,
     private store: Store<any>,
-    private route: Router
+    private route: Router,
+    private jobsService: JobsService
   ) {
     if (localStorage.getItem('token')) {
       this.isSuccessSignin = true;
@@ -85,9 +87,11 @@ export class EmployersComponent implements OnInit {
     );
     this.store.select('user').subscribe(data => {
       this.employer = data;
+      console.log(this.employer);
       if (this.employer.success) {
         this.isSuccessSignin = true;
         localStorage.setItem('token', this.employer.employer.token.toString());
+        this.jobsService.idEmployer = this.employer.employer._id;
       }
       if (!this.employer.success) {
         this.isSuccessSignin = false;

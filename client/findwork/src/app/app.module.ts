@@ -19,6 +19,7 @@ import { FindjobComponent } from './findjob/findjob.component';
 import { CateService } from './service/cate.service';
 import { SigninSignupService } from './service/signin-signup.service';
 import { GuardGuard } from './service/guard.guard';
+import { JobsService } from './service/jobs.service';
 
 
 // reducers
@@ -73,7 +74,7 @@ const routersConfig: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [CateService, SigninSignupService, GuardGuard],
+  providers: [CateService, SigninSignupService, GuardGuard, JobsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

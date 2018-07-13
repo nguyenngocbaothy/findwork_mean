@@ -23,5 +23,6 @@ export interface Employer {
         name: string;
         token: string;
         job: [string];
+        _id: string;
     };
 }
