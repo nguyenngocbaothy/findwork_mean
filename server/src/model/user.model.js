@@ -4,6 +4,7 @@ const { hash, compare } = require('bcrypt');
 const { sign } = require('../lib/jwt');
 const MyError = require('../lib/MyError');
 const { CANNOT_FIND_USER, INVALID_PASSWORD, EMAIL_EXISTED, INVALID_SIGN_UP_INFO } = require('../lib/errorCode');
+const nodemailer = require('nodemailer');
 
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;

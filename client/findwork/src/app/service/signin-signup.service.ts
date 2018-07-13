@@ -90,5 +90,20 @@ export class SigninSignupService {
     });
   }
 
+  sendEmail(payload) {
+    return this.http.post(SERVER_URL + 'employer/email', payload).toPromise()
+    .then(res => {
+      console.log(res.json());
+      if (res.json().success) {
+        alert('Send email sucessfully!');
+      } else {
+        alert('Error send email');
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
 
 }

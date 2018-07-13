@@ -26,24 +26,40 @@
           <h3 class="modal-title" *ngIf="job!==undefined">APPLY FOR {{job.title | uppercase}} AT {{job.company | uppercase}} COMPANY</h3>
         </div>
         <div class="modal-body">
-          <form>
+          <form [formGroup]="applyForm">
             <div class="form-group">
               <label for="">Name:</label>
-              <input type="text" class="form-control" autofocus placeholder="your name">
+              <input type="text" formControlName="name" class="form-control" autofocus placeholder="Your name">
+            </div>
+            <div *ngIf="shouldShowNameWarming">
+              <p class="text-danger">Name is required!</p>
             </div>
             <div class="form-group">
               <label for="">Email:</label>
-              <input type="email" class="form-control" placeholder="example@gmail.com">
+              <input type="email" formControlName="email" class="form-control" placeholder="example@gmail.com">
+            </div>
+            <div *ngIf="shouldShowEmailWarming">
+              <p class="text-danger">Email is required!</p>
+            </div>
+            <div class="form-group">
+              <label for="">Password:</label>
+              <input type="password" formControlName="password" class="form-control" placeholder="Your password">
+            </div>
+            <div *ngIf="shouldShowPasswordWarming">
+              <p class="text-danger">Password is required!</p>
             </div>
             <div class="form-group">
               <label for="">What skills, work projects or achievements make you a strong candidate? (Recommended):</label>
-              <textarea class="form-control" rows="5" placeholder="some text to introduce yourself"></textarea>
+              <textarea class="form-control" formControlName="introduce" rows="5" placeholder="some text to introduce yourself"></textarea>
+            </div>
+            <div *ngIf="shouldShowIntroduceWarming">
+              <p class="text-danger">Introduce is required!</p>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Send my infomation</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" [disabled]="!applyForm.valid" (click)="send()">Send my infomation</button>
         </div>
       </div>
       

@@ -28,3 +28,7 @@
 textarea {
     resize: none;
  }
+
+input.ng-invalid.ng-touched {
+    border-color: brown;
+} 

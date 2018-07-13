@@ -37,4 +37,10 @@ employerRouter.get('/', (req, res) => {
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
 
+employerRouter.post('/email', (req, res) => {
+    Employer.SendEmail(req.body)
+    .then((data) => res.send({ success: true, data }))
+    .catch(error => console.log(error));
+});
+
 module.exports = { employerRouter };

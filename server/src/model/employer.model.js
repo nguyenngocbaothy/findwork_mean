@@ -4,6 +4,7 @@ const { hash, compare } = require('bcrypt');
 const { sign } = require('../lib/jwt');
 const MyError = require('../lib/MyError');
 const { CANNOT_FIND_USER, INVALID_PASSWORD, EMAIL_EXISTED, INVALID_SIGN_UP_INFO } = require('../lib/errorCode');
+const nodemailer = require('nodemailer');
 
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
@@ -41,10 +42,10 @@ class Employer extends EmployerModel {
         const encrypted = await hash(password, 8);
         const employer = new EmployerModel({ email, password: encrypted, address, phone, name });
         await employer.save()
-        .catch(error => {
-            if (error.code === 11000) throw new MyError('Email existed.', EMAIL_EXISTED, 400);
-            throw new MyError('Invalid sign up info.', INVALID_SIGN_UP_INFO, 400);
-        });
+            .catch(error => {
+                if (error.code === 11000) throw new MyError('Email existed.', EMAIL_EXISTED, 400);
+                throw new MyError('Invalid sign up info.', INVALID_SIGN_UP_INFO, 400);
+            });
         const employerInfo = employer.toObject();
         delete employerInfo.password;
         return employerInfo;
@@ -54,7 +55,7 @@ class Employer extends EmployerModel {
         const employer = await Employer.findOne({ email });
         if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
         const same = await compare(password, employer.password)
-        .catch(() => { throw new MyError('Invalid password.', INVALID_PASSWORD, 400); });
+            .catch(() => { throw new MyError('Invalid password.', INVALID_PASSWORD, 400); });
         if (!same) throw new MyError('Invalid password.', INVALID_PASSWORD, 400);
         const employerInfo = employer.toObject();
         const token = await sign({ _id: employer._id });
@@ -65,7 +66,7 @@ class Employer extends EmployerModel {
 
     static async check(idUser) {
         const employer = await Employer.findById(idUser)
-        .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
+            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
         if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
         const employerInfo = employer.toObject();
         const token = await sign({ _id: employerInfo._id });
@@ -75,18 +76,59 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
-    static async updateEmployer(idEmployer,  email, password, address, phone, name) {
-        const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name }, {new: true})
+    static async updateEmployer(idEmployer, email, password, address, phone, name) {
+        const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name }, { new: true })
         const employerInfo = employer.toObject();
         delete employer.password;
         return employerInfo;
     }
 
     static async getEmployer() {
-        const employer = await Employer.find({}, {password: 0})
-        .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
+        const employer = await Employer.find({}, { password: 0 })
+            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
         console.log(employer);
         return employer;
+    }
+
+    static async SendEmail(payload) {
+        console.log(payload);
+        const idEmployer = payload.idEmployer;
+        const employer = await Employer.findOne({ _id: idEmployer })
+            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
+        if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
+        const employerInfo = employer.toObject();
+        console.log(employerInfo);
+
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                service: 'Gmail',
+                user: payload.email,
+                pass: payload.password
+            },
+        });
+
+        // // setup email data with unicode symbols
+        var mailOptions = {
+            headers: {
+                'Content-Type': 'text/html'
+            },
+            from: payload.email, // sender address
+            to: employerInfo.email, // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: payload.introduce, // plain text body
+        };
+
+        return transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return Promise.reject(error);
+            } else {
+                return Promise.resolve('Email sent: ' + info.response);
+            }
+        });
+
+
     }
 }
 
