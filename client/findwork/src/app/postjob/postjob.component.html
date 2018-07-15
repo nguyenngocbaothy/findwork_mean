@@ -1,7 +1,8 @@
 <div class="container">
   <h2>JOBS</h2>
   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addjobModal">ADD</button>
-  <br><br>
+  <br>
+  <br>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -37,89 +38,170 @@
 
 <!-- Modal add-->
 <div class="modal fade" id="addjobModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">ADD MORE JOB</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" (click)="addJob()" class="btn btn-success" data-dismiss="modal">ADD</button>
-        </div>
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">ADD MORE JOB</h4>
       </div>
-      
+      <div class="modal-body">
+        <form [formGroup]="formAddJob">
+          <p>Title:</p>
+          <input type="text" class="form-control" placeholder="Job title" formControlName="title">
+          <p *ngIf="formAddJob.controls.title.invalid && formAddJob.controls.title.touched" class="text-danger">Title is required</p>
+          <br>
+          <p>Category:</p>
+          <select class="form-control" formControlName="category">
+            <option *ngFor="let cate of categories" [ngValue]="cate._id">{{cate.name}}</option>
+          </select>
+          <br>
+          <p>Location:</p>
+          <select class="form-control" formControlName="location">
+            <option value="HCM">HCM</option>
+            <option value="HaNoi">HaNoi</option>
+          </select>
+          <br>
+          <p>Salary:</p>
+          <input type="text" class="form-control" placeholder="Salary" formControlName="salary">
+          <p *ngIf="formAddJob.controls.salary.invalid && formAddJob.controls.salary.touched" class="text-danger">Salary is required</p>
+          <br>
+          <p>Company:</p>
+          <input type="text" class="form-control" placeholder="Company" formControlName="company">
+          <p *ngIf="formAddJob.controls.company.invalid && formAddJob.controls.company.touched" class="text-danger">Company is required</p>
+          <br>
+          <p>Decription:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Description" formControlName="description"></textarea>
+          <p *ngIf="formAddJob.controls.description.invalid && formAddJob.controls.description.touched" class="text-danger">Description is required</p>
+          <br>
+          <p>Requirement:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Requirement" formControlName="requirement"></textarea>
+          <p *ngIf="formAddJob.controls.requirement.invalid && formAddJob.controls.requirement.touched" class="text-danger">Requirement is required</p>
+
+          <br>
+          <p>Benefit:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefit"></textarea>
+          <p *ngIf="formAddJob.controls.benefit.invalid && formAddJob.controls.benefit.touched" class="text-danger">Benefit is required</p>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" (click)="addJob()" [disabled]="!formAddJob.valid" class="btn btn-success" data-dismiss="modal">ADD</button>
+      </div>
     </div>
+
   </div>
+</div>
 
 <!-- Modal update-->
 <div class="modal fade" id="updatejobModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">UPDATE JOB</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" (click)="updateJob()" class="btn btn-info" data-dismiss="modal">Update</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  <div class="modal-dialog">
 
-  <!-- Modal delete-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">UPDATE JOB</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formUpdateJob">
+          <p>Title:</p>
+          <input type="text" class="form-control" placeholder="Job title" formControlName="titleupdate">
+          <p *ngIf="formUpdateJob.controls.titleupdate.invalid && formUpdateJob.controls.titleupdate.touched" class="text-danger">Title is required</p>
+          <br>
+          <p>Category:</p>
+          <select class="form-control" formControlName="categoryupdate">
+            <option *ngFor="let c of tempcate" [ngValue]="c._id">{{c.name}}</option>
+          </select>
+          <br>
+          <p>Location:</p>
+          <select class="form-control" formControlName="locationupdate">
+            <option value="HCM">HCM</option>
+            <option value="HaNoi">HaNoi</option>
+          </select>
+          <br>
+          <p>Salary:</p>
+          <input type="text" class="form-control" placeholder="Salary" formControlName="salaryupdate">
+          <p *ngIf="formUpdateJob.controls.salaryupdate.invalid && formUpdateJob.controls.salaryupdate.touched" class="text-danger">Salary is required</p>
+          <br>
+          <p>Company:</p>
+          <input type="text" class="form-control" placeholder="Company" formControlName="companyupdate">
+          <p *ngIf="formUpdateJob.controls.companyupdate.invalid && formUpdateJob.controls.companyupdate.touched" class="text-danger">Company is required</p>
+          <br>
+          <p>Decription:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Description" formControlName="descriptionupdate"></textarea>
+          <p *ngIf="formUpdateJob.controls.descriptionupdate.invalid && formUpdateJob.controls.descriptionupdate.touched" class="text-danger">Description is required</p>
+          <br>
+          <p>Requirement:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Requirement" formControlName="requirementupdate"></textarea>
+          <p *ngIf="formUpdateJob.controls.requirementupdate.invalid && formUpdateJob.controls.requirementupdate.touched" class="text-danger">Requirement is required</p>
+          <br>
+          <p>Benefit:</p>
+          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefitupdate"></textarea>
+          <p *ngIf="formUpdateJob.controls.benefitupdate.invalid && formUpdateJob.controls.benefitupdate.touched" class="text-danger">Benefit is required</p>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" (click)="updateJob()" [disabled]="!formUpdateJob.valid" class="btn btn-info" data-dismiss="modal">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal delete-->
 <div class="modal fade" id="deletejobModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">DELETE JOB</h4>
-        </div>
-        <div class="modal-body">
-          <p>Do you want to delete <strong>{{jobChoosen.title}}</strong> job?.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" (click)="deleteJob()" class="btn btn-danger" data-dismiss="modal">Delete</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  <div class="modal-dialog">
 
-  <!-- Modal detail-->
-<div class="modal fade" id="detailjobModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">VIEW DETAIL</h4>
-        </div>
-        <div *ngIf="jobChoosen" class="modal-body">
-          <p><strong>Title: </strong>{{jobChoosen.title}}</p>
-          <p><strong>Company: </strong>{{jobChoosen.company}}</p>
-          <p><strong>Location: </strong>{{jobChoosen.location}}</p>
-          <p><strong>Salary: </strong>{{jobChoosen.salary}} $</p>
-          <p *ngIf="jobChoosen.detail"><strong>Benefit: </strong>{{jobChoosen.detail.benefit}}</p>
-          <p *ngIf="jobChoosen.detail"><strong>Description: </strong>{{jobChoosen.detail.description}}</p>
-          <p *ngIf="jobChoosen.detail"><strong>Requirement: </strong>{{jobChoosen.detail.requirement}}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">DELETE JOB</h4>
       </div>
-      
+      <div class="modal-body">
+        <p>Do you want to delete
+          <strong>{{jobChoosen.title}}</strong> job?.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteJob()" class="btn btn-danger" data-dismiss="modal">Delete</button>
+      </div>
     </div>
+
   </div>
+</div>
+
+<!-- Modal detail-->
+<div class="modal fade" id="detailjobModal" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">VIEW DETAIL</h4>
+      </div>
+      <div *ngIf="jobChoosen" class="modal-body">
+        <p>
+          <strong>Title: </strong>{{jobChoosen.title}}</p>
+        <p>
+          <strong>Company: </strong>{{jobChoosen.company}}</p>
+        <p>
+          <strong>Location: </strong>{{jobChoosen.location}}</p>
+        <p>
+          <strong>Salary: </strong>{{jobChoosen.salary}} $</p>
+        <p *ngIf="jobChoosen.detail">
+          <strong>Benefit: </strong>{{jobChoosen.detail.benefit}}</p>
+        <p *ngIf="jobChoosen.detail">
+          <strong>Description: </strong>{{jobChoosen.detail.description}}</p>
+        <p *ngIf="jobChoosen.detail">
+          <strong>Requirement: </strong>{{jobChoosen.detail.requirement}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

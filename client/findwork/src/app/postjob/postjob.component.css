@@ -3,5 +3,9 @@
 }
 
 .container{
-    height: 600px;
+    height: 650px;
+}
+
+input.ng-invalid.ng-touched {
+    border-color: brown;
 }
