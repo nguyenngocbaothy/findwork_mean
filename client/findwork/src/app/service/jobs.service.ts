@@ -57,4 +57,17 @@ export class JobsService {
     });
   }
 
+  updateJob(idJob, payload) {
+    const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
+    return this.http.put(SERVER_URL + 'job/' + idJob, payload, { headers }).subscribe(data => {
+      console.log(data.json());
+      if (data.json().success) {
+        this.getAllJobByIdEmployer(this.idEmployer);
+        alert('Update job successfully!');
+      } else {
+        alert('Error update job');
+      }
+    });
+  }
+
 }

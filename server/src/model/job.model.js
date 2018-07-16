@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Employer = require('../model/employer.model');
 const Category = require('../model/category.model');
+const MyError = require('../lib/MyError');
 
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;

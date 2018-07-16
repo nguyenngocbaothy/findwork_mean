@@ -22,6 +22,7 @@ jobRouter.put('/:id', mustBeUser, (req, res) => {
     const { location, title, salary } = req.body;
     Job.updateJobById(jobId, employerId, location, title, salary, description, requirement, benefit)
     .then(newJob => res.send({ success: true, newJob }))
+    // .catch(err => console.log(err));
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
 

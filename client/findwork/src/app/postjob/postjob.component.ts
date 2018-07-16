@@ -18,6 +18,7 @@ export class PostjobComponent implements OnInit {
   formAddJob: FormGroup;
   formUpdateJob: FormGroup;
   tempcate = [];
+  temp2cate = [];
 
   constructor(
     private jobsService: JobsService,
@@ -65,20 +66,21 @@ export class PostjobComponent implements OnInit {
   }
 
   selectRow(job) {
-    console.log(job);
     this.jobChoosen = job;
 
+    this.temp2cate = [];
+    this.tempcate = [];
     this.tempcate = this.categories;
-    console.log(this.tempcate, this.categories);
-    // this.tempcate.forEach(e => {
-    //   if (this.jobChoosen.category === e._id) {
-    //     const index = this.tempcate.indexOf(e);
-    //     this.tempcate.splice(index, 1);
-    //     this.tempcate.unshift(e);
-    //     console.log(this.tempcate);
-    //   }
-    // });
-    // this.tempcate = [];
+
+    this.tempcate.forEach(e => {
+      if (e._id === this.jobChoosen.category) {
+        const index = this.tempcate.indexOf(e);
+        this.tempcate.splice(index, 1);
+        this.tempcate.unshift(e);
+
+        this.temp2cate = this.tempcate.reverse();
+      }
+    });
 
     this.validateUpdateForm(
       this.jobChoosen.title,
@@ -111,7 +113,20 @@ export class PostjobComponent implements OnInit {
 
   updateJob() {
     console.log(this.jobChoosen._id);
-    console.log(this.formUpdateJob.value);
+    const payload = {
+      'category': this.formUpdateJob.value.categoryupdate,
+      'location': this.formUpdateJob.value.locationupdate,
+      'title': this.formUpdateJob.value.titleupdate,
+      'salary': this.formUpdateJob.value.salaryupdate,
+      'company': this.formUpdateJob.value.companyupdate,
+      'detail': {
+        'description': this.formUpdateJob.value.descriptionupdate,
+        'requirement': this.formUpdateJob.value.requirementupdate,
+        'benefit': this.formUpdateJob.value.benefitupdate
+      }
+    };
+    // console.log(payload);
+    this.jobsService.updateJob(this.jobChoosen._id, payload);
   }
 
   addJob() {
@@ -129,6 +144,7 @@ export class PostjobComponent implements OnInit {
     };
     console.log(payload);
     this.jobsService.addJob(payload);
+    this.formAddJob.reset();
   }
 
 }
