@@ -1,0 +1,17 @@
+h3 {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.detail {
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.result {
+    margin-top: 20px;
+    background-color: #bfefe4;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 4px 0;
+}

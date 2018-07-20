@@ -17,7 +17,7 @@ export class ContentComponent implements OnInit {
   jobs: any[]; // jobs when search
   allJobs: any[]; // all jobs
   jobUser: any; // list job user when login
-  count = 1; // count number of item per page
+  count = 2; // count number of item per page
 
   searchWord: string;
 
@@ -58,6 +58,7 @@ export class ContentComponent implements OnInit {
 
     this.user.isSuccess.subscribe(isLogin => {
         this.isLogin = isLogin;
+        console.log(this.isLogin);
     });
   }
 
