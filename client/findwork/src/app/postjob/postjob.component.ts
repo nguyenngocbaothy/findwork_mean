@@ -5,6 +5,7 @@ import { Category } from '../types';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { log } from 'util';
 
 @Component({
   selector: 'app-postjob',
@@ -55,35 +56,35 @@ export class PostjobComponent implements OnInit {
 
     this.store.select('category').subscribe(categories => {
       this.categories = categories;
-      console.log(this.categories);
-      // if (this.categories.length > 0) {
-      //   console.log(this.categories[0].name);
-      //   this.formAddJob.controls.category.setValue({
-      //     'category': this.categories[0].name
-      //   });
-      // }
+      if (this.categories.length > 0) {
+        this.formAddJob.controls['category'].setValue(this.categories[0]._id);
+      }
     });
+
+    this.formAddJob.controls['location'].setValue('HCM');
   }
 
   selectRow(job) {
     this.jobChoosen = job;
+    console.log(this.jobChoosen.category);
 
-    this.temp2cate = [];
-    this.tempcate = [];
-    this.tempcate = this.categories;
+    // this.temp2cate = [];
+    // this.tempcate = [];
+    // this.tempcate = this.categories;
 
-    this.tempcate.forEach(e => {
-      if (e._id === this.jobChoosen.category) {
-        const index = this.tempcate.indexOf(e);
-        this.tempcate.splice(index, 1);
-        this.tempcate.unshift(e);
+    // this.tempcate.forEach(e => {
+    //   if (e._id === this.jobChoosen.category) {
+    //     const index = this.tempcate.indexOf(e);
+    //     this.tempcate.splice(index, 1);
+    //     this.tempcate.unshift(e);
 
-        this.temp2cate = this.tempcate.reverse();
-      }
-    });
+    //     this.temp2cate = this.tempcate.reverse();
+    //   }
+    // });
 
     this.validateUpdateForm(
       this.jobChoosen.title,
+      this.jobChoosen.category,
       this.jobChoosen.location,
       this.jobChoosen.salary,
       this.jobChoosen.company,
@@ -93,10 +94,10 @@ export class PostjobComponent implements OnInit {
     );
   }
 
-  validateUpdateForm(title?, location?, salary?, company?, description?, requirement?, benefit?) {
+  validateUpdateForm(title?, category?, location?, salary?, company?, description?, requirement?, benefit?) {
     this.formUpdateJob = this.fb.group({
       titleupdate: [title, Validators.required],
-      categoryupdate: ['', Validators.required],
+      categoryupdate: [category, Validators.required],
       locationupdate: [location, Validators.required],
       salaryupdate: [salary, Validators.required],
       companyupdate: [company, Validators.required],
@@ -107,7 +108,6 @@ export class PostjobComponent implements OnInit {
   }
 
   deleteJob() {
-    console.log(this.jobChoosen._id);
     this.jobsService.deleteJob(this.jobChoosen._id);
   }
 
@@ -142,7 +142,6 @@ export class PostjobComponent implements OnInit {
         'benefit': this.formAddJob.value.benefit
       }
     };
-    console.log(payload);
     this.jobsService.addJob(payload);
     this.formAddJob.reset();
   }

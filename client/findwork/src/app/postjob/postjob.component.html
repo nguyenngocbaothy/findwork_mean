@@ -58,8 +58,8 @@
           <br>
           <p>Location:</p>
           <select class="form-control" formControlName="location">
-            <option value="HCM">HCM</option>
-            <option value="HaNoi">HaNoi</option>
+            <option [value]="HCM" [selected]="true">HCM</option>
+            <option [value]="HaNoi">HaNoi</option>
           </select>
           <br>
           <p>Salary:</p>
@@ -111,7 +111,7 @@
           <br>
           <p>Category:</p>
           <select class="form-control" formControlName="categoryupdate">
-            <option *ngFor="let c of temp2cate" [ngValue]="c._id">{{c.name}}</option>
+            <option *ngFor="let c of categories" [value]="c._id">{{c.name}}</option>
           </select>
           <br>
           <p>Location:</p>
