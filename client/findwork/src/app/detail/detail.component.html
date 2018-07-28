@@ -55,6 +55,13 @@
             <div *ngIf="shouldShowIntroduceWarming">
               <p class="text-danger">Introduce is required!</p>
             </div>
+            <div class="form-group">
+              <label for="">Your CV:</label>
+              <input type="file" id="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+            </div>
+            <div *ngIf="shouldShowIntroduceWarming">
+              <p class="text-danger">Introduce is required!</p>
+            </div>
           </form>
         </div>
         <div class="modal-footer">

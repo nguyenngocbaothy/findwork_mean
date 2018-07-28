@@ -4,6 +4,8 @@ const employerRouter = express.Router();
 const Employer = require('../model/employer.model');
 const { mustBeUser } = require('./mustBeUser');
 
+const upload = require('./uploadConfig');
+
 employerRouter.post('/signup', (req, res) => {
     const { email, password, address, phone, name } = req.body;
     Employer.signUp(email, password, address, phone, name)

@@ -105,5 +105,20 @@ export class SigninSignupService {
     });
   }
 
+  uploadFile(file) {
+    return this.http.post(SERVER_URL + 'uploadfile', file).toPromise()
+    .then(res => {
+      console.log(res.json());
+      if (res.json().success) {
+        alert('upload file sucessfully!');
+      } else {
+        alert('Error to upload file send email');
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
 
 }

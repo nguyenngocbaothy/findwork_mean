@@ -17,6 +17,8 @@ export class DetailComponent implements OnInit {
   hasLoad = false;
   isLogin: any = false;
   idEmployer: string;
+  uploadData;
+  filename: string;
 
   applyForm: FormGroup;
 
@@ -94,8 +96,18 @@ export class DetailComponent implements OnInit {
 
   send() {
     this.applyForm.value.idEmployer = this.idEmployer;
+    this.applyForm.value.filename = this.filename;
     console.log(this.applyForm.value);
     this.user.sendEmail(this.applyForm.value);
+  }
+
+  fileChange(event) {
+    const selectedFile = <File>event.target.files[0];
+    this.uploadData = new FormData();
+    this.uploadData.append('file', selectedFile, selectedFile.name);
+    this.filename = selectedFile.name;
+    console.log(this.uploadData, selectedFile);
+    this.user.uploadFile(this.uploadData);
   }
 
 

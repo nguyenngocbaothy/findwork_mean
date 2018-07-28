@@ -6,6 +6,8 @@ const MyError = require('../lib/MyError');
 const { CANNOT_FIND_USER, INVALID_PASSWORD, EMAIL_EXISTED, INVALID_SIGN_UP_INFO } = require('../lib/errorCode');
 const nodemailer = require('nodemailer');
 
+const fs = require('fs');
+
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
@@ -109,15 +111,26 @@ class Employer extends EmployerModel {
             },
         });
 
+        var attachments = [
+            { 
+                filename: payload.filename, 
+                path: '../server/public/' + payload.filename, 
+            }
+        ];
+
         // // setup email data with unicode symbols
         var mailOptions = {
-            headers: {
-                'Content-Type': 'text/html'
-            },
+            // headers: {
+            //     'Content-Type': 'text/html'
+            // },
             from: payload.email, // sender address
             to: employerInfo.email, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: payload.introduce, // plain text body
+            // text: payload.introduce, // plain text body
+            html: `<h4> Hello, My name is ${payload.name}. <br> ${payload.introduce} <br>
+                    Here is my CV: <br>
+                    </h4>`,
+            attachments: attachments
         };
 
         return transporter.sendMail(mailOptions, (error, info) => {
