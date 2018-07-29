@@ -70,4 +70,8 @@ export class JobsService {
     });
   }
 
+  findDreamJob(payload) {
+    return this.http.post(SERVER_URL + 'job/userfindjob/finddreamjob', payload);
+  }
+
 }

@@ -1,28 +1,60 @@
 <h3>EASY TO FIND YOUR DREAM JOBS</h3>
+<h5>Notice:
+  <strong>
+    Enter your keyword which is suitable to each box and weight number (weight number as high as important)
+  </strong>
+</h5>
 
 <div class="container">
   <div class="col-md-6 detail">
-    <span>Title:</span>
-    <input class="form-control" placeholder="Enter the dream job">
-    <br>
-    <span>Location:</span>
-    <input class="form-control" placeholder="Enter location">
-    <br>
-    <span>Salary:</span>
-    <input class="form-control" placeholder="Enter salary $">
-    <br>
-    <span>Category:</span>
-    <select class="form-control">
-      <option value="">Soft ware</option>
-    </select>
-    <br>
-    <span>Company:</span>
-    <input class="form-control" placeholder="Enter company">
-    <br>
-    <span>Something else:</span>
-    <textarea class="form-control" rows="5" placeholder="Enter something"></textarea>
-    <br>
-    <button type="button" class="btn btn-success">FIND DREAM JOBS</button>
+    <form [formGroup]="formFindjob">
+      <div class="row">
+        <div class="col-md-8">
+            <span>Title:</span>
+            <input type="text" formControlName="findJobTitle" class="form-control" placeholder="Enter the dream job, example: Java">
+            <br>
+            <span>Location:</span>
+            <select class="form-control" formControlName="findJobLocation">
+              <option value="HCM">HCM</option>
+              <option value="HaNoi">HaNoi</option>
+            </select>
+            <br>
+            <span>Salary:</span>
+            <input type="number" formControlName="findJobSalary" class="form-control" placeholder="Enter salary $, example: 50">
+            <br>
+            <span>Category:</span>
+            <select class="form-control" formControlName="findJobCategory">
+              <option *ngFor="let cate of categories" [ngValue]="cate._id">{{cate.name}}</option>
+            </select>
+            <br>
+            <span>Company:</span>
+            <input type="text" formControlName="findJobcompany" class="form-control" placeholder="Enter company, examble: abc">
+            <br>
+            <span>Experiences:</span>
+            <input type="text" formControlName="findJobExperience" class="form-control" placeholder="Enter number of experiences, example: 2 years experience">
+            <br>
+            <span>Level:</span>
+            <input type="text" formControlName="findJobLevel" class="form-control" placeholder="Enter Level, example: internship">
+            <br>
+            <span>Certificate</span>
+            <input type="text" formControlName="findJobCertificate" class="form-control" placeholder="Enter certificate, example: diploma">
+            <br>
+        </div>
+        <div class="col-md-4">
+          <span>Weight Number:</span>
+          <input type="number" formControlName="findJobNumberTitle" class="form-control" placeholder="Example: 3">
+          <input type="number" formControlName="findJobNumberLocation" class="form-control number" placeholder="Example: 2">
+          <input type="number" formControlName="findJobNumbersalary" class="form-control number" placeholder="Example: 3">
+          <input type="number" formControlName="findJobNumberCategory" class="form-control number" placeholder="Example: 2">
+          <input type="number" formControlName="findJobNumberCompany" class="form-control number" placeholder="Example: 1">
+          <input type="number" formControlName="findJobNumberExperience" class="form-control number" placeholder="Example: 1">
+          <input type="number" formControlName="findJobNumberLevel" class="form-control number" placeholder="Example: 2">
+          <input type="number" formControlName="findJobNumberCertificate" class="form-control number" placeholder="Example: 3">
+        </div>
+      </div>
+      
+      <button type="button" class="btn btn-success" (click)="findDreamJob()">FIND DREAM JOBS</button>
+    </form>
   </div>
 
   <div class="col-md-6">
@@ -31,29 +63,39 @@
         <img src="assets/company.png" style="width: 80px; height: 80px;">
       </div>
       <div class="col-md-9">
-        <p style="margin-top: 15px;"><strong>NODEJS</strong></p>
-        <p><strong>50$ - <span>HCM</span></strong></p>
+        <p style="margin-top: 15px;">
+          <strong>NODEJS</strong>
+        </p>
+        <p>
+          <strong>50$ -
+            <span>HCM</span>
+          </strong>
+        </p>
       </div>
     </div>
 
     <div class="result row">
-        <div class="col-md-3">
-          <img src="assets/company.png" style="width: 80px; height: 80px;">
-        </div>
-        <div class="col-md-9">
-          <p style="margin-top: 15px;">NODEJS</p>
-          <p>50$ - <span>HCM</span></p>
-        </div>
+      <div class="col-md-3">
+        <img src="assets/company.png" style="width: 80px; height: 80px;">
       </div>
+      <div class="col-md-9">
+        <p style="margin-top: 15px;">NODEJS</p>
+        <p>50$ -
+          <span>HCM</span>
+        </p>
+      </div>
+    </div>
 
-      <div class="result row">
-          <div class="col-md-3">
-            <img src="assets/company.png" style="width: 80px; height: 80px;">
-          </div>
-          <div class="col-md-9">
-            <p style="margin-top: 15px;">NODEJS</p>
-            <p>50$ - <span>HCM</span></p>
-          </div>
-        </div>
+    <div class="result row">
+      <div class="col-md-3">
+        <img src="assets/company.png" style="width: 80px; height: 80px;">
+      </div>
+      <div class="col-md-9">
+        <p style="margin-top: 15px;">NODEJS</p>
+        <p>50$ -
+          <span>HCM</span>
+        </p>
+      </div>
+    </div>
   </div>
 </div>

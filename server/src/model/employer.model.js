@@ -141,8 +141,8 @@ class Employer extends EmployerModel {
             }
         });
 
-
     }
+
 }
 
 module.exports = Employer;

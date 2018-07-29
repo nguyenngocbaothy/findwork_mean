@@ -192,6 +192,66 @@ class Job extends JobModel {
 
         return job;
     }
+
+    static async findDreamJob(payload) {
+        // console.log(payload);
+        const jobs = await Job.find({}, { password: 0 })
+        .catch(() => { throw new MyError('Cannot find job.', CANNOT_FIND_JOB, 404); });
+        // console.log(jobs);
+
+        let totalScoreJob = [];
+        if (jobs.length > 0) {
+            
+            jobs.forEach(e => {
+                let score = 0;
+                
+                if (payload.findJobTitle.toLowerCase().indexOf(e.title.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberTitle;
+                    // console.log('title number');
+                }
+                if (payload.findJobLocation.toLowerCase().indexOf(e.location.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberLocation;
+                    // console.log('location number');
+                }
+                if (payload.findJobSalary === e.salary) {
+                    score += 1 * payload.findJobNumbersalary;
+                    // console.log('salary number');
+                }
+                if (JSON.stringify(payload.findJobCategory) === JSON.stringify(e.category)) {
+                    score += 1 * payload.findJobNumberCategory;
+                    // console.log('cate number');
+                }
+                if (payload.findJobcompany.toLowerCase().indexOf(e.company.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberCompany;
+                    // console.log('company number');
+                }
+                if (e.detail.requirement.toLowerCase().indexOf(payload.findJobExperience.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberExperience;
+                    // console.log('experience number');
+                }
+                if (e.detail.requirement.toLowerCase().indexOf(payload.findJobLevel.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberLevel;
+                    // console.log('level number');
+                }
+                if (e.detail.requirement.toLowerCase().indexOf(payload.findJobCertificate.toLowerCase()) !== -1) {
+                    score += 1 * payload.findJobNumberCertificate;
+                    // console.log('certificate number');
+                }
+               
+                // set score for each job
+                // let pair = { jobscore: score }
+                e.jobscore = score;
+                console.log(score);
+                totalScoreJob.push(e);
+            });
+
+            console.log(totalScoreJob);
+        }
+
+
+
+        return totalScoreJob.sort({jobscore: -1})
+    }
 }
 
 module.exports = Job;

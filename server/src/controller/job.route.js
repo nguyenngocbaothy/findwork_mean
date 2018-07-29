@@ -64,5 +64,11 @@ jobRouter.get('/getjob/:id', (req, res) => {
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
 
+jobRouter.post('/userfindjob/finddreamjob', (req, res) => {
+    Job.findDreamJob(req.body)
+    .then((data) => res.send({ success: true, data }))
+    .catch(error => console.log(error));
+});
+
 
 module.exports = { jobRouter };
