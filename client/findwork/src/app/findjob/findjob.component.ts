@@ -14,6 +14,7 @@ export class FindjobComponent implements OnInit {
 
   formFindjob: FormGroup;
   categories: Category[] = [];
+  listJob = [];
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +56,8 @@ export class FindjobComponent implements OnInit {
   findDreamJob() {
     console.log(this.formFindjob.value);
     this.jobService.findDreamJob(this.formFindjob.value).subscribe(data => {
-      console.log(data.json());
+      this.listJob = data.json().data;
+      console.log(this.listJob);
     });
   }
 

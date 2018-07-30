@@ -239,18 +239,36 @@ class Job extends JobModel {
                 }
                
                 // set score for each job
-                // let pair = { jobscore: score }
-                e.jobscore = score;
-                console.log(score);
-                totalScoreJob.push(e);
+                //e.jobscore = score;
+                const data = {
+                    '_id': e._id,
+                    'category': e.category,
+                    'location' : e.location,
+                    'title' : e.title,
+                    'salary' : e.salary,
+                    'company' : e.company,
+                    'employer' : e.employer,
+                    'jobscore': score,
+                    'detail' : {
+                        'description' : e.detail.description,
+                        'requirement' : e.detail.requirement,
+                        'benefit' : e.detail.benefit
+                    },
+                }
+                // console.log(e.jobscore);
+                // totalScoreJob.push(e);
+                totalScoreJob.push(data);
             });
 
-            console.log(totalScoreJob);
+            // console.log(totalScoreJob);
         }
 
+        totalScoreJob.sort((a, b) => {
+            return b.jobscore - a.jobscore;
+        })
 
-
-        return totalScoreJob.sort({jobscore: -1})
+        console.log(totalScoreJob);
+        return totalScoreJob.slice(0,5);
     }
 }
 

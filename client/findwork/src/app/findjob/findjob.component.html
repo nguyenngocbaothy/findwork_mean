@@ -58,42 +58,19 @@
   </div>
 
   <div class="col-md-6">
-    <div class="result row">
+    <div class="result row" *ngFor="let job of listJob">
       <div class="col-md-3">
         <img src="assets/company.png" style="width: 80px; height: 80px;">
       </div>
       <div class="col-md-9">
         <p style="margin-top: 15px;">
-          <strong>NODEJS</strong>
+          <strong>{{job.title}}</strong>
         </p>
+        <p>{{job.company}}</p>
         <p>
-          <strong>50$ -
-            <span>HCM</span>
+          <strong>{{job.salary}}$ -
+            <span>{{job.location}}</span>
           </strong>
-        </p>
-      </div>
-    </div>
-
-    <div class="result row">
-      <div class="col-md-3">
-        <img src="assets/company.png" style="width: 80px; height: 80px;">
-      </div>
-      <div class="col-md-9">
-        <p style="margin-top: 15px;">NODEJS</p>
-        <p>50$ -
-          <span>HCM</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="result row">
-      <div class="col-md-3">
-        <img src="assets/company.png" style="width: 80px; height: 80px;">
-      </div>
-      <div class="col-md-9">
-        <p style="margin-top: 15px;">NODEJS</p>
-        <p>50$ -
-          <span>HCM</span>
         </p>
       </div>
     </div>
