@@ -35,14 +35,14 @@ export class FindjobComponent implements OnInit {
       findJobExperience : [''],
       findJobLevel: [''],
       findJobCertificate: [''],
-      findJobNumberTitle: [''],
-      findJobNumberLocation: [''],
-      findJobNumbersalary : [''],
-      findJobNumberCategory: [''],
-      findJobNumberCompany: [''],
-      findJobNumberExperience : [''],
-      findJobNumberLevel: [''],
-      findJobNumberCertificate: [''],
+      findJobNumberTitle: [0],
+      findJobNumberLocation: [0],
+      findJobNumbersalary : [0],
+      findJobNumberCategory: [0],
+      findJobNumberCompany: [0],
+      findJobNumberExperience : [0],
+      findJobNumberLevel: [0],
+      findJobNumberCertificate: [0],
     });
 
     this.store.select('category').subscribe(categories => {

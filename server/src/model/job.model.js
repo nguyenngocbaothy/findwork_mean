@@ -38,20 +38,22 @@ const jobSchema = new Schema({
             require: true 
         }
     },
-    employer: { type: Schema.Types.ObjectId, ref: 'Employer' }
+    employer: { type: Schema.Types.ObjectId, ref: 'Employer' },
+    create: { type: Date, default: Date.now() },
+    endDate: { type: Date },
 });
 
 const JobModel = mongoose.model('Job', jobSchema);
 module.exports = JobModel;
 
 class Job extends JobModel {
-    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId, company) {
+    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId, company, endDate) {
         const objectDetail =  {
             "description": description,
             "requirement": requirement,
             "benefit": benefit
         };
-        const newJob = new JobModel({ category: categoryId, location, title, salary, company, detail: objectDetail, employer: employerId })
+        const newJob = new JobModel({ category: categoryId, location, title, salary, company, endDate , detail: objectDetail, employer: employerId })
         await newJob.save()
         .catch(error => {
             throw new MyError('Invalid job info', INVALID_JOB_INFO, 400);
@@ -199,6 +201,13 @@ class Job extends JobModel {
         .catch(() => { throw new MyError('Cannot find job.', CANNOT_FIND_JOB, 404); });
         // console.log(jobs);
 
+        let totalWeight = 0;
+        totalWeight += payload.findJobNumberTitle + payload.findJobNumberLocation + payload.findJobNumbersalary 
+            + payload.findJobNumberCategory + payload.findJobNumberCompany
+            + payload.findJobNumberExperience + payload.findJobNumberLevel
+            + payload.findJobNumberCertificate 
+        console.log(totalWeight);
+
         let totalScoreJob = [];
         if (jobs.length > 0) {
             
@@ -206,35 +215,35 @@ class Job extends JobModel {
                 let score = 0;
                 
                 if (payload.findJobTitle.toLowerCase().indexOf(e.title.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberTitle;
+                    score += 1 * payload.findJobNumberTitle / totalWeight;
                     // console.log('title number');
                 }
                 if (payload.findJobLocation.toLowerCase().indexOf(e.location.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberLocation;
+                    score += 1 * payload.findJobNumberLocation / totalWeight;
                     // console.log('location number');
                 }
                 if (payload.findJobSalary === e.salary) {
-                    score += 1 * payload.findJobNumbersalary;
+                    score += 1 * payload.findJobNumbersalary / totalWeight;
                     // console.log('salary number');
                 }
                 if (JSON.stringify(payload.findJobCategory) === JSON.stringify(e.category)) {
-                    score += 1 * payload.findJobNumberCategory;
+                    score += 1 * payload.findJobNumberCategory / totalWeight;
                     // console.log('cate number');
                 }
                 if (payload.findJobcompany.toLowerCase().indexOf(e.company.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberCompany;
+                    score += 1 * payload.findJobNumberCompany / totalWeight;
                     // console.log('company number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobExperience.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberExperience;
+                    score += 1 * payload.findJobNumberExperience / totalWeight;
                     // console.log('experience number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobLevel.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberLevel;
+                    score += 1 * payload.findJobNumberLevel / totalWeight;
                     // console.log('level number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobCertificate.toLowerCase()) !== -1) {
-                    score += 1 * payload.findJobNumberCertificate;
+                    score += 1 * payload.findJobNumberCertificate / totalWeight;
                     // console.log('certificate number');
                 }
                
@@ -267,7 +276,7 @@ class Job extends JobModel {
             return b.jobscore - a.jobscore;
         })
 
-        console.log(totalScoreJob);
+        // console.log(totalScoreJob);
         return totalScoreJob.slice(0,5);
     }
 }

@@ -50,7 +50,8 @@ export class PostjobComponent implements OnInit {
       company: ['', Validators.required],
       description: ['', Validators.required],
       requirement: ['', Validators.required],
-      benefit: ['', Validators.required]
+      benefit: ['', Validators.required],
+      endDate: ['', Validators.required]
     });
     this.validateUpdateForm();
 
@@ -136,12 +137,14 @@ export class PostjobComponent implements OnInit {
       'title': this.formAddJob.value.title,
       'salary': this.formAddJob.value.salary,
       'company': this.formAddJob.value.company,
+      'endDate': this.formAddJob.value.endDate,
       'detail': {
         'description': this.formAddJob.value.description,
         'requirement': this.formAddJob.value.requirement,
         'benefit': this.formAddJob.value.benefit
       }
     };
+    console.log(this.formAddJob.value.endDate);
     this.jobsService.addJob(payload);
     this.formAddJob.reset();
   }

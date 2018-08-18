@@ -49,6 +49,7 @@
           <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="isLogin">{{job.salary}} $</p>
           <p style="color: dodgerblue; margin-top: 35px; float: left;" *ngIf="!isLogin">Login to view salary</p>
           <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.location}}</p>
+          <p style="margin-top: 35px; float: left; padding-left: 5px;">| {{job.endDate}}</p>
           <a *ngIf="!isLogin" title="You should Log In to save job!">
             <span style="float: right; padding-top: 5px; padding-left: 5px;">SAVE</span>
             <span style="float: right;">

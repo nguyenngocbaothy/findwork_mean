@@ -70,6 +70,10 @@
           <input type="text" class="form-control" placeholder="Company" formControlName="company">
           <p *ngIf="formAddJob.controls.company.invalid && formAddJob.controls.company.touched" class="text-danger">Company is required</p>
           <br>
+          <p>End day:</p>
+          <input type="date" class="form-control" placeholder="Company" formControlName="endDate">
+          <p *ngIf="formAddJob.controls.endDate.invalid && formAddJob.controls.endDate.touched" class="text-danger">End Date is required</p>
+          <br>
           <p>Decription:</p>
           <textarea class="form-control" rows="5" placeholder="Job Description" formControlName="description"></textarea>
           <p *ngIf="formAddJob.controls.description.invalid && formAddJob.controls.description.touched" class="text-danger">Description is required</p>

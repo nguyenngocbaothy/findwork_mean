@@ -46,8 +46,8 @@ jobRouter.post('/:id', (req, res) => {
     const description = req.body.detail.description;
     const requirement = req.body.detail.requirement;
     const benefit = req.body.detail.benefit;
-    const { location, title, salary, company, category } = req.body;
-    Job.addJob(employerId, location, title, salary, description, requirement, benefit, category, company)
+    const { location, title, salary, company, category, endDate } = req.body;
+    Job.addJob(employerId, location, title, salary, description, requirement, benefit, category, company, endDate)
     .then(newJob => res.send({ success: true, newJob }))
     .catch(error => res.status(error.statusCode).send({ success: false, message: error.message, code: error.code }));
 });
