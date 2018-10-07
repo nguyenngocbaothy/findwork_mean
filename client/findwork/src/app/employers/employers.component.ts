@@ -96,6 +96,7 @@ export class EmployersComponent implements OnInit {
       this.formSignupEmployer.value.employerSignupPassword
     );
     this.store.select('user').subscribe(data => {
+      this.employer = data;
       console.log(this.employer);
       if (this.employer.success) {
         this.isSuccessSignup = true;

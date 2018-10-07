@@ -3,6 +3,7 @@ const { hash, compare } = require('bcrypt');
 
 const { sign } = require('../lib/jwt');
 const MyError = require('../lib/MyError');
+const Message = require('../lib/messages');
 const { CANNOT_FIND_USER, INVALID_PASSWORD, EMAIL_EXISTED, INVALID_SIGN_UP_INFO } = require('../lib/errorCode');
 const nodemailer = require('nodemailer');
 
@@ -40,13 +41,13 @@ const EmployerModel = mongoose.model('Employer', employerSchema);
 
 class Employer extends EmployerModel {
     static async signUp(email, password, address, phone, name) {
-        if (typeof password !== 'string') throw new MyError('Password is required.', INVALID_PASSWORD, 400);
+        if (typeof password !== 'string') throw new MyError(Message.PASSWORD_REQUIRED, INVALID_PASSWORD, 400);
         const encrypted = await hash(password, 8);
         const employer = new EmployerModel({ email, password: encrypted, address, phone, name });
         await employer.save()
             .catch(error => {
-                if (error.code === 11000) throw new MyError('Email existed.', EMAIL_EXISTED, 400);
-                throw new MyError('Invalid sign up info.', INVALID_SIGN_UP_INFO, 400);
+                if (error.code === 11000) throw new MyError(Message.EMAIL_EXISTS, EMAIL_EXISTED, 400);
+                throw new MyError(Message.INVALID_SIGNUP_INFO, INVALID_SIGN_UP_INFO, 400);
             });
         const employerInfo = employer.toObject();
         delete employerInfo.password;
@@ -55,10 +56,10 @@ class Employer extends EmployerModel {
 
     static async signIn(email, password) {
         const employer = await Employer.findOne({ email });
-        if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
+        if (!employer) throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404);
         const same = await compare(password, employer.password)
-            .catch(() => { throw new MyError('Invalid password.', INVALID_PASSWORD, 400); });
-        if (!same) throw new MyError('Invalid password.', INVALID_PASSWORD, 400);
+            .catch(() => { throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400); });
+        if (!same) throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400);
         const employerInfo = employer.toObject();
         const token = await sign({ _id: employer._id });
         employerInfo.token = token;
@@ -68,8 +69,8 @@ class Employer extends EmployerModel {
 
     static async check(idUser) {
         const employer = await Employer.findById(idUser)
-            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
-        if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
+            .catch(() => { throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404); });
+        if (!employer) throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404);
         const employerInfo = employer.toObject();
         const token = await sign({ _id: employerInfo._id });
         employerInfo.token = token;
@@ -79,7 +80,8 @@ class Employer extends EmployerModel {
     }
 
     static async updateEmployer(idEmployer, email, password, address, phone, name) {
-        const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name }, { new: true })
+        const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name },
+            { new: true })
         const employerInfo = employer.toObject();
         delete employer.password;
         return employerInfo;
@@ -87,7 +89,7 @@ class Employer extends EmployerModel {
 
     static async getEmployer() {
         const employer = await Employer.find({}, { password: 0 })
-            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
+            .catch(() => { throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404); });
         console.log(employer);
         return employer;
     }
@@ -96,8 +98,8 @@ class Employer extends EmployerModel {
         console.log(payload);
         const idEmployer = payload.idEmployer;
         const employer = await Employer.findOne({ _id: idEmployer })
-            .catch(() => { throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404); });
-        if (!employer) throw new MyError('Cannot find user.', CANNOT_FIND_USER, 404);
+            .catch(() => { throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404); });
+        if (!employer) throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404);
         const employerInfo = employer.toObject();
         console.log(employerInfo);
 
