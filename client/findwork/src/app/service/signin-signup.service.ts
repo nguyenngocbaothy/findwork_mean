@@ -4,31 +4,37 @@ import 'rxjs/add/operator/toPromise';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Router } from '@angular/router/';
-
-const SERVER_URL = 'http://localhost:3000/';
+import { APICONFIG } from '../api.config';
+import { MESSAGES } from '../messages';
 
 @Injectable()
 export class SigninSignupService {
+  // Check has login
   isSuccessLogin = new BehaviorSubject<any> (0);
 
-  constructor(private http: Http, private store: Store<any>, private route: Router) {
+  // Inject service
+  constructor(
+    private http: Http,
+    private store: Store<any>,
+    private route: Router) {
     if (localStorage.getItem('token')) {
       this.setSuccess(true);
-    } else {
-      // this.setSuccess(false);
     }
   }
 
+  // Get info when login success
   get isSuccess() {
     return this.isSuccessLogin.asObservable();
   }
 
+  // Set info when login success
   public setSuccess(newValue) {
     this.isSuccessLogin.next(newValue);
   }
 
+  // User login
   loginUser(email, password) {
-    return this.http.post(SERVER_URL + 'user/signin', {email, password} ).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.LOGIN}`, {email, password} ).toPromise()
     .then(res => {
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
       this.setSuccess(true);
@@ -40,12 +46,13 @@ export class SigninSignupService {
     });
   }
 
+  // User save jobs
   saveJobUser(jobId) {
     if (jobId === '') {
       return;
     } else {
       const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-      return this.http.post(SERVER_URL + 'user/savejob/' + jobId, {}, { headers }).toPromise()
+      return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SAVEJOB}${jobId}`, {}, { headers }).toPromise()
       .then(res => {
         console.log(res.json().user.listjobuser);
         this.store.dispatch({ type: 'SAVE_JOB', user: res.json().user.listjobuser });
@@ -56,8 +63,9 @@ export class SigninSignupService {
     }
   }
 
+  // User signup
   signUp(name, email, password) {
-    return this.http.post(SERVER_URL + 'user/signup', {email, password, name} ).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SIGNUP}`, {email, password, name}).toPromise()
     .then(res => {
       console.log(res.json());
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
@@ -67,9 +75,10 @@ export class SigninSignupService {
     });
   }
 
-  // EMPLOYER
-  SignupEmployer(name, email, password) {
-    return this.http.post(SERVER_URL + 'employer/signup', {email, password, name, address: 'unknown', phone: 0} ).toPromise()
+  // Employer signup
+  signupEmployer(name, email, password) {
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.EMPLOYER.SIGNUP}`,
+                          {email, password, name, address: 'unknown', phone: 0} ).toPromise()
     .then(res => {
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
     })
@@ -78,8 +87,9 @@ export class SigninSignupService {
     });
   }
 
-  SigninEmployer(email, password) {
-    return this.http.post(SERVER_URL + 'employer/signin', {email, password} ).toPromise()
+  // Empolyer signin
+  signinEmployer(email, password) {
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.EMPLOYER.LOGIN}`, {email, password} ).toPromise()
     .then(res => {
       this.setSuccess(true);
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });
@@ -90,14 +100,15 @@ export class SigninSignupService {
     });
   }
 
+  // User send mail
   sendEmail(payload) {
-    return this.http.post(SERVER_URL + 'employer/email', payload).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SENDMAIL}`, payload).toPromise()
     .then(res => {
       console.log(res.json());
       if (res.json().success) {
-        alert('Send email sucessfully!');
+        alert(`${MESSAGES.ALERTSENDMAIL.SUCCESS}`);
       } else {
-        alert('Error send email');
+        alert(`${MESSAGES.ALERTSENDMAIL.ERROR}`);
       }
     })
     .catch(err => {
@@ -105,14 +116,15 @@ export class SigninSignupService {
     });
   }
 
+  // User upload file when send mail
   uploadFile(file) {
-    return this.http.post(SERVER_URL + 'uploadfile', file).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.UPLOADFILE}`, file).toPromise()
     .then(res => {
       console.log(res.json());
       if (res.json().success) {
-        alert('upload file sucessfully!');
+        alert(`${MESSAGES.UPLOADFILE.SUCCESS}`);
       } else {
-        alert('Error to upload file send email');
+        alert(`${MESSAGES.UPLOADFILE.ERROR}`);
       }
     })
     .catch(err => {

@@ -5,6 +5,7 @@ import { JobsService } from '../service/jobs.service';
 import { Store } from '@ngrx/store';
 import { Employer } from '../types';
 import { Router } from '@angular/router';
+import { MESSAGES } from '../messages';
 
 @Component({
   selector: 'app-employers',
@@ -12,15 +13,53 @@ import { Router } from '@angular/router';
   styleUrls: ['./employers.component.css']
 })
 export class EmployersComponent implements OnInit {
+  // Message employer not sign up
+  EMPLOYER_NOT_SIGNUP = `${MESSAGES.EMPLOYERSIGNUP.EMPLOYERNOTSIGNUP}`;
+  // Message employer sign up success
+  EMPLOYER_SIGNUP_SUCCESS = `${MESSAGES.EMPLOYERSIGNUP.EMPLOYERSIGNUPSUCCESS}`;
+  // Message employer sign up error
+  EMPLOYER_SIGNUP_ERROR = `${MESSAGES.EMPLOYERSIGNUP.EMPLOYERSIGNUPERROR}`;
 
+  // Message validate name
+  VALIDATE_NAME = `${MESSAGES.VALIDATE.NAME}`;
+  // Message validate email
+  VALIDATE_EMAIL = `${MESSAGES.VALIDATE.EMAIL}`;
+  // Message validate password
+  VALIDATE_PASSWORD = `${MESSAGES.VALIDATE.PASSWORD}`;
+
+  // Message employer not sign in
+  EMPLOYER_NOT_SIGNIN = `${MESSAGES.EMPLOYERSIGIN.EMPLOYERNOTSIGNIN}`;
+  // Message employer sign in success
+  EMPLOYER_SIGNIN_SUCCESS = `${MESSAGES.EMPLOYERSIGIN.EMPLOYERSIGNINSUCCESS}`;
+  // Message employer sign in error
+  EMPLOYER_SIGNIN_ERROR = `${MESSAGES.EMPLOYERSIGIN.EMPLOYERSIGNINERROR}`;
+
+
+  // FormGroup
   formSignupEmployer: FormGroup;
   formSigninEmployer: FormGroup;
 
+  // Variable type is Employer that contain value of Employer type
   employer: Employer;
+
+  /*
+    Check user has signup
+    0: user not signup
+    true: user signup
+    false: user not signup
+  */
   isSuccessSignup: any = 0;
+
+  /*
+    Check user has login
+    0: user not login
+    true: user logined
+    false: user not logined
+  */
   isSuccessSignin: any = 0;
 
 
+  // Inject service
   constructor(
     private fb: FormBuilder,
     private employerService: SigninSignupService,
@@ -28,12 +67,14 @@ export class EmployersComponent implements OnInit {
     private route: Router,
     private jobsService: JobsService
   ) {
+    // Check user is login by check token is has
     if (localStorage.getItem('token')) {
       this.isSuccessSignin = true;
       this.employerService.setSuccess(true);
     }
    }
 
+  // Initialize  value for validate form login and register when component fist displays
   ngOnInit() {
     this.formSignupEmployer = this.fb.group({
       employerSignupName: ['', Validators.required],
@@ -47,8 +88,9 @@ export class EmployersComponent implements OnInit {
     });
   }
 
-  Employersignup() {
-    this.employerService.SignupEmployer(
+  // Submit info user to register
+  employerSignup() {
+    this.employerService.signupEmployer(
       this.formSignupEmployer.value.employerSignupName,
       this.formSignupEmployer.value.employerSignupEmail,
       this.formSignupEmployer.value.employerSignupPassword
@@ -64,24 +106,28 @@ export class EmployersComponent implements OnInit {
     });
   }
 
+  // check validate if error about email when register
   get shouldShowEmailEmployerSignUpWarming() {
     const eControl = this.formSignupEmployer.get('employerSignupEmail');
     return eControl.invalid && eControl.touched;
   }
 
+  // check validate if error about name when register
   get shouldShowNameEmployerSignUpWarming() {
     const nControl = this.formSignupEmployer.get('employerSignupName');
     return nControl.invalid && nControl.touched;
   }
 
+  // check validate if error about password when register
   get shouldShowPasswordEmployerSignUpWarming() {
     const pControl = this.formSignupEmployer.get('employerSignupPassword');
     return pControl.invalid && pControl.touched;
   }
 
-  Employersignin() {
+  // Submit info user to login
+  employerSignin() {
     const role = { role: 'E' };
-    this.employerService.SigninEmployer(
+    this.employerService.signinEmployer(
       this.formSigninEmployer.value.employerSigninEmail,
       this.formSigninEmployer.value.employerSigninPassword
     );
@@ -100,17 +146,20 @@ export class EmployersComponent implements OnInit {
     });
   }
 
+  // Check validate if error about email when login
   get shouldShowEmailEmployerSignInWarming() {
     const eControl = this.formSigninEmployer.get('employerSigninEmail');
     return eControl.invalid && eControl.touched;
   }
 
+  // Check validate if error about password when login
   get shouldShowPasswordEmployerSignInWarming() {
     const pControl = this.formSigninEmployer.get('employerSigninPassword');
     return pControl.invalid && pControl.touched;
   }
 
-  postjob() {
+  // Navigate to route admin of Employer
+  postJob() {
     this.route.navigate(['/postjob']);
   }
 

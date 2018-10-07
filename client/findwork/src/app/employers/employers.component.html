@@ -14,7 +14,7 @@
   </font> 
 
   <button  *ngIf="isSuccessSignin" style="margin-top: -10px; margin-left: 10px; border: 1px solid white;
-  border-radius: 20px;" type="button" class="btn btn-info btn-lg" (click)="postjob()">POST JOB</button>
+  border-radius: 20px;" type="button" class="btn btn-info btn-lg" (click)="postJob()">POST JOB</button>
 </div>
 <h1 class="info2">
     Helping Your Business Move Up<br>
@@ -25,7 +25,8 @@
 
 <div class="btnSignup">
     <!-- Trigger the modal with a button -->
-    <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupe">Sign Up</button>
+    <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+    data-target="#signupe">Sign Up</button>
   
     <!-- Modal signup -->
     <div class="modal fade" id="signupe" role="dialog">
@@ -39,36 +40,41 @@
             </div>
             <form [formGroup]="formSignupEmployer">
                 <div class="modal-body"> 
-                    <p *ngIf="isSuccessSignup === 0" class="text-warning">You are not sign up!</p>
-                    <p *ngIf="isSuccessSignup" class="text-success">Sign up successfully!</p>
-                    <p *ngIf="isSuccessSignup === false" class="text-danger">Sign up error! Maybe your account is existed</p>
+                    <p *ngIf="isSuccessSignup === 0" class="text-warning">{{EMPLOYER_NOT_SIGNUP}}</p>
+                    <p *ngIf="isSuccessSignup" class="text-success">{{EMPLOYER_SIGNUP_SUCCESS}}</p>
+                    <p *ngIf="isSuccessSignup === false" class="text-danger">{{EMPLOYER_SIGNUP_ERROR}}</p>
                     <div class="form-group">
                         <label for="usr">Name:</label>
-                        <input type="text" class="form-control" formControlName="employerSignupName" placeholder="example">
+                        <input type="text" class="form-control" formControlName="employerSignupName"
+                        placeholder="example">
                     </div>
                     <div *ngIf="shouldShowNameEmployerSignUpWarming">
-                        <p class="text-danger">Name is required!</p>
+                        <p class="text-danger">{{VALIDATE_NAME}}</p>
                     </div>
                     <div class="form-group">
                         <label for="usr">Email:</label>
-                        <input type="text" class="form-control" formControlName="employerSignupEmail" placeholder="example@gmail.com">
+                        <input type="text" class="form-control" formControlName="employerSignupEmail"
+                        placeholder="example@gmail.com">
                     </div>
                     <div *ngIf="shouldShowEmailEmployerSignUpWarming">
-                        <p class="text-danger">Email is required!</p>
+                        <p class="text-danger">{{VALIDATE_EMAIL}}</p>
                     </div>
                     <div class="form-group">
                         <label for="pwd">Password:</label>
-                        <input type="password" class="form-control" formControlName="employerSignupPassword" placeholder="password">
+                        <input type="password" class="form-control" formControlName="employerSignupPassword"
+                        placeholder="password">
                     </div>
                     <div *ngIf="shouldShowPasswordEmployerSignUpWarming">
-                        <p class="text-danger">Password is required!</p>
+                        <p class="text-danger">{{VALIDATE_PASSWORD}}</p>
                     </div>
                 </div>
             </form> 
           <div class="modal-footer">
-              <button type="button" class="btn btn-warning" style="width: 100%" (click)="Employersignup()" [disabled]="!formSignupEmployer.valid">Register</button>
+              <button type="button" class="btn btn-warning" style="width: 100%" (click)="employerSignup()"
+              [disabled]="!formSignupEmployer.valid">Register</button>
               <br><br>
-              <span>Already have an account?</span><span><a data-dismiss="modal" data-target="#signine" data-toggle="modal"> Sign In</a></span>
+              <span>Already have an account?</span><span><a data-dismiss="modal" data-target="#signine"
+                data-toggle="modal"> Sign In</a></span>
           </div>
         </div>
         
@@ -79,7 +85,8 @@
 
 <div class="btnSignin">
       <!-- Trigger the modal with a button -->
-      <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signine">Sign In</button>
+      <button *ngIf="!isSuccessSignin" type="button" class="btn btn-info btn-lg" data-toggle="modal"
+      data-target="#signine">Sign In</button>
   
       <!-- Modal signup -->
       <div class="modal fade" id="signine" role="dialog">
@@ -93,29 +100,33 @@
               </div>
               <form [formGroup]="formSigninEmployer">
                 <div class="modal-body">
-                    <p *ngIf="isSuccessSignin === 0" class="text-warning">You are not signin!</p>
-                    <p *ngIf="isSuccessSignin" class="text-success">Signin successfully!</p>
-                    <p *ngIf="isSuccessSignin === false" class="text-danger">Signin error! Please check your infomation.</p> 
+                    <p *ngIf="isSuccessSignin === 0" class="text-warning">{{EMPLOYER_NOT_SIGNIN}}</p>
+                    <p *ngIf="isSuccessSignin" class="text-success">{{EMPLOYER_SIGNIN_SUCCESS}}</p>
+                    <p *ngIf="isSuccessSignin === false" class="text-danger">{{EMPLOYER_SIGNIN_ERROR}}</p> 
                     <div class="form-group">
                         <label for="usr">Email:</label>
-                        <input type="text" class="form-control" formControlName="employerSigninEmail" placeholder="example@gmail.com">
+                        <input type="text" class="form-control" formControlName="employerSigninEmail"
+                        placeholder="example@gmail.com">
                     </div>
                     <div *ngIf="shouldShowEmailEmployerSignInWarming">
-                        <p class="text-danger">Email is required!</p>
+                        <p class="text-danger">{{VALIDATE_EMAIL}}</p>
                     </div>
                     <div class="form-group">
                         <label for="pwd">Password:</label>
-                        <input type="password" class="form-control" formControlName="employerSigninPassword" placeholder="password">
+                        <input type="password" class="form-control" formControlName="employerSigninPassword"
+                        placeholder="password">
                     </div>
                     <div *ngIf="shouldShowPasswordEmployerSignInWarming">
-                        <p class="text-danger">Email is required!</p>
+                        <p class="text-danger">{{VALIDATE_PASSWORD}}</p>
                     </div>
                 </div>
              </form>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-warning" style="width: 100%" (click)="Employersignin()" [disabled]="!formSigninEmployer.valid">Sign in</button>
+                  <button type="button" class="btn btn-warning" style="width: 100%" (click)="employerSignin()"
+                  [disabled]="!formSigninEmployer.valid">Sign in</button>
                   <br><br>
-                  <span>Don't have an account yet?</span><span><a data-dismiss="modal" data-target="#signupe" data-toggle="modal" > Register now!</a></span>
+                  <span>Don't have an account yet?</span><span><a data-dismiss="modal" data-target="#signupe"
+                    data-toggle="modal" > Register now!</a></span>
               </div>
             </div>
             
@@ -148,8 +159,10 @@
   <img src="assets/gua.jpg" alt=""><br><br>
   <p>Recruiting in Vietnam is challenging and we are here to support you. 
     If you are not 100% satisfied with VietnamWorks’s Job Post services, 
-    you may contact our consultants dialing HCM: (84 28) 3925 8456 / HN: (84 24) 3944 0568 or writing to jobsupport@itjobs.com, 
-    to request your FREE of charge re-post (excluding premium services) within 10 business days after your paid job post has expired.
-    The Program does not apply to re-posted jobs or free jobs post in promotion programs or any kind of supported jobs post.</p>
-  
+    you may contact our consultants dialing HCM: (84 28) 3925 8456 / HN: (84 24) 3944 0568 or
+    writing to jobsupport@itjobs.com, 
+    to request your FREE of charge re-post (excluding premium services) 
+    within 10 business days after your paid job post has expired.
+    The Program does not apply to re-posted jobs or free jobs post in promotion programs or 
+    any kind of supported jobs post.</p>
 </div>
