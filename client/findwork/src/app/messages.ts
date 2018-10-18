@@ -5,9 +5,9 @@ export const MESSAGES = {
         EMPLOYERSIGNUPERROR: 'Sign up error! Maybe your account is existed.'
     },
     VALIDATE: {
-        NAME: 'Name is required!',
-        EMAIL: 'Email is required!',
-        PASSWORD: 'Password is required!'
+        NAME_REQUIRED: 'Name is required!',
+        EMAIL_REQUIRED: 'Email is required!',
+        PASSWORD_REQUIRED: 'Password is required!'
     },
     EMPLOYERSIGIN: {
         EMPLOYERNOTSIGNIN: 'You are not signin!',

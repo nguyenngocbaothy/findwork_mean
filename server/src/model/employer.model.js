@@ -40,6 +40,7 @@ const employerSchema = new Schema({
 const EmployerModel = mongoose.model('Employer', employerSchema);
 
 class Employer extends EmployerModel {
+    // Employer sign up
     static async signUp(email, password, address, phone, name) {
         if (typeof password !== 'string') throw new MyError(Message.PASSWORD_REQUIRED, INVALID_PASSWORD, 400);
         const encrypted = await hash(password, 8);
@@ -54,10 +55,11 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
+    // Employer sign in
     static async signIn(email, password) {
-        const employer = await Employer.findOne({ email });
+        const employer = await Employer.findOne({ email }); // 2a.3
         if (!employer) throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404);
-        const same = await compare(password, employer.password)
+        const same = await compare(password, employer.password) //2a.4
             .catch(() => { throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400); });
         if (!same) throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400);
         const employerInfo = employer.toObject();
@@ -67,6 +69,7 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
+    // Check token of employer
     static async check(idUser) {
         const employer = await Employer.findById(idUser)
             .catch(() => { throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404); });
@@ -79,6 +82,7 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
+    // update employer
     static async updateEmployer(idEmployer, email, password, address, phone, name) {
         const employer = await Employer.findByIdAndUpdate(idEmployer, { email, password, address, phone, name },
             { new: true })
@@ -87,6 +91,7 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
+    // get employer
     static async getEmployer() {
         const employer = await Employer.find({}, { password: 0 })
             .catch(() => { throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404); });
@@ -94,6 +99,7 @@ class Employer extends EmployerModel {
         return employer;
     }
 
+    // Sending email to employer
     static async SendEmail(payload) {
         console.log(payload);
         const idEmployer = payload.idEmployer;

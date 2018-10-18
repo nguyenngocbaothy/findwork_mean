@@ -21,11 +21,11 @@ export class EmployersComponent implements OnInit {
   EMPLOYER_SIGNUP_ERROR = `${MESSAGES.EMPLOYERSIGNUP.EMPLOYERSIGNUPERROR}`;
 
   // Message validate name
-  VALIDATE_NAME = `${MESSAGES.VALIDATE.NAME}`;
+  VALIDATE_NAME = `${MESSAGES.VALIDATE.NAME_REQUIRED}`;
   // Message validate email
-  VALIDATE_EMAIL = `${MESSAGES.VALIDATE.EMAIL}`;
+  VALIDATE_EMAIL = `${MESSAGES.VALIDATE.EMAIL_REQUIRED}`;
   // Message validate password
-  VALIDATE_PASSWORD = `${MESSAGES.VALIDATE.PASSWORD}`;
+  VALIDATE_PASSWORD = `${MESSAGES.VALIDATE.PASSWORD_REQUIRED}`;
 
   // Message employer not sign in
   EMPLOYER_NOT_SIGNIN = `${MESSAGES.EMPLOYERSIGIN.EMPLOYERNOTSIGNIN}`;
@@ -127,7 +127,7 @@ export class EmployersComponent implements OnInit {
 
   // Submit info user to login
   employerSignin() {
-    const role = { role: 'E' };
+    // const role = { role: 'E' };
     this.employerService.signinEmployer(
       this.formSigninEmployer.value.employerSigninEmail,
       this.formSigninEmployer.value.employerSigninPassword
@@ -147,13 +147,13 @@ export class EmployersComponent implements OnInit {
     });
   }
 
-  // Check validate if error about email when login
+  // 2a.1 Check validate if error about email when login
   get shouldShowEmailEmployerSignInWarming() {
     const eControl = this.formSigninEmployer.get('employerSigninEmail');
     return eControl.invalid && eControl.touched;
   }
 
-  // Check validate if error about password when login
+  // 2a.2 Check validate if error about password when login
   get shouldShowPasswordEmployerSignInWarming() {
     const pControl = this.formSigninEmployer.get('employerSigninPassword');
     return pControl.invalid && pControl.touched;
