@@ -88,6 +88,10 @@ export class EmployersComponent implements OnInit {
     });
   }
 
+  // Thiết_kế sign up Emoloyer
+  // (2) Xử lý đăng kí
+  // (2).3
+
   // Submit info user to register
   employerSignup() {
     this.employerService.signupEmployer(
@@ -107,23 +111,42 @@ export class EmployersComponent implements OnInit {
     });
   }
 
-  // check validate if error about email when register
+  // Thiết_kế sign up Emoloyer
+  // (2) Xử lý đăng kí
+  // 2. Xử lý check
+  // a. Check hạng mục
+
+  // 2a.1 check validate if error about email when register
   get shouldShowEmailEmployerSignUpWarming() {
     const eControl = this.formSignupEmployer.get('employerSignupEmail');
     return eControl.invalid && eControl.touched;
   }
 
-  // check validate if error about name when register
+  // Thiết_kế sign up Emoloyer
+  // (2) Xử lý đăng kí
+  // 2. Xử lý check
+  // a. Check hạng mục
+
+  // 2a.3 check validate if error about name when register
   get shouldShowNameEmployerSignUpWarming() {
     const nControl = this.formSignupEmployer.get('employerSignupName');
     return nControl.invalid && nControl.touched;
   }
 
-  // check validate if error about password when register
+  // Thiết_kế sign up Emoloyer
+  // (2) Xử lý đăng kí
+  // 2. Xử lý check
+  // 2a. Check hạng mục
+
+  // 2a.2 check validate if error about password when register
   get shouldShowPasswordEmployerSignUpWarming() {
     const pControl = this.formSignupEmployer.get('employerSignupPassword');
     return pControl.invalid && pControl.touched;
   }
+
+  // Thiết_kế login Emoloyer
+  // (2) Xử lý đăng nhập
+  // (2).3
 
   // Submit info user to login
   employerSignin() {
@@ -147,13 +170,21 @@ export class EmployersComponent implements OnInit {
     });
   }
 
-  // 2a.1 Check validate if error about email when login
+  // Thiết_kế login Emoloyer
+  // (2) Xử lý đăng nhập
+  // 2. Xử lý check
+  // 2.a. Check hạng mục
+  // 2.a.1 Check validate if error about email when login
   get shouldShowEmailEmployerSignInWarming() {
     const eControl = this.formSigninEmployer.get('employerSigninEmail');
     return eControl.invalid && eControl.touched;
   }
 
-  // 2a.2 Check validate if error about password when login
+  // Thiết_kế login Emoloyer
+  // (2) Xử lý đăng nhập
+  // 2. Xử lý check
+  // 2.a. Check hạng mục
+  // 2.a.2 Check validate if error about password when login
   get shouldShowPasswordEmployerSignInWarming() {
     const pControl = this.formSigninEmployer.get('employerSigninPassword');
     return pControl.invalid && pControl.touched;

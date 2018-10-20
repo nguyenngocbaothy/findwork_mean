@@ -72,6 +72,9 @@ class Job extends JobModel {
         return jobInfo; 
     }
 
+    // Thiết_kế work list Emoloyer
+    // (2) Xử lý lấy dữ liệu công việc
+    // 3. Xử lý lấy dữ liệu
     static async getJobByIdEmployer(employerId) {
         const employer = await Employer.findById(employerId).populate('job')
         .catch(error => { throw new Error('Cannot find user.'); });

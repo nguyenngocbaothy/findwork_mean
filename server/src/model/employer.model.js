@@ -40,13 +40,20 @@ const employerSchema = new Schema({
 const EmployerModel = mongoose.model('Employer', employerSchema);
 
 class Employer extends EmployerModel {
+    // Thiết_kế login Emoloyer
+    // (2) Xử lý đăng kí
+    // 2. Xử lý check
+    // a. Check hạng mục
+
     // Employer sign up
     static async signUp(email, password, address, phone, name) {
+        // 2.a.2 Check hạng mục Password
         if (typeof password !== 'string') throw new MyError(Message.PASSWORD_REQUIRED, INVALID_PASSWORD, 400);
         const encrypted = await hash(password, 8);
         const employer = new EmployerModel({ email, password: encrypted, address, phone, name });
         await employer.save()
             .catch(error => {
+                // 2.a.3 Check hạng mục Email
                 if (error.code === 11000) throw new MyError(Message.EMAIL_EXISTS, EMAIL_EXISTED, 400);
                 throw new MyError(Message.INVALID_SIGNUP_INFO, INVALID_SIGN_UP_INFO, 400);
             });
@@ -55,11 +62,18 @@ class Employer extends EmployerModel {
         return employerInfo;
     }
 
+    // Thiết_kế sign up Emoloyer
+    // (2) Xử lý đăng nhập
+    // 2. Xử lý check
+    // a. Check hạng mục
+    
     // Employer sign in
     static async signIn(email, password) {
-        const employer = await Employer.findOne({ email }); // 2a.3
+        // 2.a.3 Check hạng mục Email
+        const employer = await Employer.findOne({ email });
         if (!employer) throw new MyError(Message.CANNOT_FIND_USER, CANNOT_FIND_USER, 404);
-        const same = await compare(password, employer.password) //2a.4
+        // 2.a.4 Check hạng mục Password
+        const same = await compare(password, employer.password)
             .catch(() => { throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400); });
         if (!same) throw new MyError(Message.INVALID_PASSWORD, INVALID_PASSWORD, 400);
         const employerInfo = employer.toObject();
