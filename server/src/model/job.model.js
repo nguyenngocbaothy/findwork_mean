@@ -212,20 +212,36 @@ class Job extends JobModel {
         return job;
     }
 
+    // Thiết_kế Find Dream Job User
+    // 3. Xử lí tìm kiếm công việc
+    // 3.b. Tìm kiếm việc phù hợp
+    // 3.b.2
     static async findDreamJob(payload) {
-        // console.log(payload);
         const jobs = await Job.find({}, { password: 0 })
         .catch(() => { throw new MyError('Cannot find job.', CANNOT_FIND_JOB, 404); });
-        // console.log(jobs);
 
+        // 3.b.3
         let totalWeight = 0;
         totalWeight += payload.findJobNumberTitle + payload.findJobNumberLocation
             + payload.findJobNumbersalary 
             + payload.findJobNumberCategory + payload.findJobNumberCompany
             + payload.findJobNumberExperience + payload.findJobNumberLevel
             + payload.findJobNumberCertificate 
-        console.log(totalWeight);
 
+        let totalScoreJob = await this.makeScore(jobs, totalWeight, payload);
+        // 4.
+        if (totalScoreJob) {
+            return totalScoreJob.slice(0,5);
+        }
+
+        
+    }
+
+    // Thiết_kế Find Dream Job User
+    // 3. Xử lí tìm kiếm công việc
+    // 3.b. Tìm kiếm việc phù hợp
+    // 3.b.4
+    static async makeScore(jobs, totalWeight, payload) {
         let totalScoreJob = [];
         if (jobs.length > 0) {
             
@@ -234,39 +250,29 @@ class Job extends JobModel {
                 
                 if (payload.findJobTitle.toLowerCase().indexOf(e.title.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberTitle / totalWeight;
-                    // console.log('title number');
                 }
                 if (payload.findJobLocation.toLowerCase().indexOf(e.location.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberLocation / totalWeight;
-                    // console.log('location number');
                 }
                 if (payload.findJobSalary === e.salary) {
                     score += 1 * payload.findJobNumbersalary / totalWeight;
-                    // console.log('salary number');
                 }
                 if (JSON.stringify(payload.findJobCategory) === JSON.stringify(e.category)) {
                     score += 1 * payload.findJobNumberCategory / totalWeight;
-                    // console.log('cate number');
                 }
                 if (payload.findJobcompany.toLowerCase().indexOf(e.company.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberCompany / totalWeight;
-                    // console.log('company number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobExperience.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberExperience / totalWeight;
-                    // console.log('experience number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobLevel.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberLevel / totalWeight;
-                    // console.log('level number');
                 }
                 if (e.detail.requirement.toLowerCase().indexOf(payload.findJobCertificate.toLowerCase()) !== -1) {
                     score += 1 * payload.findJobNumberCertificate / totalWeight;
-                    // console.log('certificate number');
                 }
                
-                // set score for each job
-                //e.jobscore = score;
                 const data = {
                     '_id': e._id,
                     'category': e.category,
@@ -282,21 +288,26 @@ class Job extends JobModel {
                         'benefit' : e.detail.benefit
                     },
                 }
-                // console.log(e.jobscore);
-                // totalScoreJob.push(e);
+
                 totalScoreJob.push(data);
+                
             });
 
-            // console.log(totalScoreJob);
+            const sortScore = this.sortScore(totalScoreJob);
+            return sortScore;
         }
+    }
 
-        totalScoreJob.sort((a, b) => {
+    // Thiết_kế Find Dream Job User
+    // 3. Xử lí tìm kiếm công việc
+    // 3.b. Tìm kiếm việc phù hợp
+    // 3.b.5
+    static async sortScore(totalScoreJob) {
+        return totalScoreJob.sort((a, b) => {
             return b.jobscore - a.jobscore;
         })
-
-        // console.log(totalScoreJob);
-        return totalScoreJob.slice(0,5);
     }
+
 }
 
 module.exports = Job;

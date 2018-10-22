@@ -15,5 +15,11 @@ export const APICONFIG = {
         ADD: 'job/',
         UPDATE: 'job/',
         DELETE: 'job/'
+    },
+    DREAMJOB: {
+        FIND: 'job/userfindjob/finddreamjob'
+    },
+    CHECKTOKEN: {
+        EMPLOYER_TOKEN: 'employer/check'
     }
 };

@@ -8,16 +8,21 @@ import { MESSAGES } from '../messages';
 const SERVER_URL = 'http://localhost:3000/';
 @Injectable()
 export class JobsService {
+  // id of employer
   idEmployer: string;
+
+  // list jobs
   alljob = new BehaviorSubject([]);
 
   constructor(private http: Http) {
       this.checkToken();
   }
 
+  // Check token is authen
   checkToken() {
     const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-    return this.http.post(SERVER_URL + 'employer/check', {}, { headers }).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.CHECKTOKEN.EMPLOYER_TOKEN}`, {}, { headers })
+    .toPromise()
     .then(res => {
       this.idEmployer = res.json().employer._id;
       this.getAllJobByIdEmployer(this.idEmployer);
@@ -95,8 +100,9 @@ export class JobsService {
     });
   }
 
+  // find job by score
   findDreamJob(payload) {
-    return this.http.post(SERVER_URL + 'job/userfindjob/finddreamjob', payload);
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.DREAMJOB.FIND}`, payload);
   }
 
 }
