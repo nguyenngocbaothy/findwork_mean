@@ -47,25 +47,29 @@ const JobModel = mongoose.model('Job', jobSchema);
 module.exports = JobModel;
 
 class Job extends JobModel {
-    static async addJob(employerId, location, title, salary, description, requirement, benefit, categoryId, company, endDate) {
+    // Thiết_kế Add Job
+    // (2) Xử lý thêm công việc
+    // (2).3 Xử lí lưu thông tin công việc
+    static async addJob(employerId, location, title, salary, description, requirement, benefit,
+        categoryId, company, endDate) {
         const objectDetail =  {
             "description": description,
             "requirement": requirement,
             "benefit": benefit
         };
-        const newJob = new JobModel({ category: categoryId, location, title, salary, company, endDate , detail: objectDetail, employer: employerId })
+        // (2).3.a Lưu thông tin Job
+        const newJob = new JobModel({ category: categoryId, location, title, salary, company, endDate,
+            detail: objectDetail, employer: employerId })
         await newJob.save()
         .catch(error => {
             throw new MyError('Invalid job info', INVALID_JOB_INFO, 400);
         })
         const jobInfo = newJob.toObject();
 
+        // (2).3.b Lưu id công việc vào cho nhà tuyển dụng
+
         // add job to array job of employer
         const employerUpdade = await Employer.findByIdAndUpdate(employerId, { $addToSet: { job: jobInfo._id} })
-        // .then(employerUpdade => {
-        //     //console.log(employerUpdade);
-        //     console.log(employerUpdade.populate('job'));
-        // })
         .catch(error => { throw new Error('Cannot find user.'); });
         if (!employerUpdade) throw new MyError('Cannot find user.', 'CANNOT_FIND_USER', 404);
 
@@ -83,21 +87,31 @@ class Job extends JobModel {
         return employer.job;
     }
 
+    // Thiết_kế Update Job
+    // (2) Xử lý sửa công việc
+    // (2).2. Xử lý check
+    
     static async updateJobById(jobId, employerId, location, title, salary, description, requirement, benefit) {
-        // console.log(jobId, employerId, location, title, salary, description, requirement, benefit);
         const objectDetail =  {
             "description": description,
             "requirement": requirement,
             "benefit": benefit
         };
-        const newJob = await Job.findOneAndUpdate({ _id: jobId, employer: employerId }, { location, title, salary, detail: objectDetail }, { new: true })
+        // (2).2.b.1, (2).2.b.2 Check hạng mục employerId và jobId
+        const newJob = await Job.findOneAndUpdate({ _id: jobId, employer: employerId },
+            { location, title, salary, detail: objectDetail }, { new: true })
         .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
         if (!newJob) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
         
         return newJob;
     }
 
+    // Thiết_kế Delete Job
+    // (2) Xử lý xóa công việc
+    // (2).2. Xử lý check
+
     static async deleteJobById(jobId, employerId) {
+        // (2).2.b.1, (2).2.b.2 Check hạng mục employerId và jobId
         const job = await Job.findOneAndRemove({ _id: jobId, employer: employerId })
         .catch(error => { throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404); });
         if (!job) throw new MyError('Cannot find job.', 'CANNOT_FIND_JOB', 404);
@@ -205,7 +219,8 @@ class Job extends JobModel {
         // console.log(jobs);
 
         let totalWeight = 0;
-        totalWeight += payload.findJobNumberTitle + payload.findJobNumberLocation + payload.findJobNumbersalary 
+        totalWeight += payload.findJobNumberTitle + payload.findJobNumberLocation
+            + payload.findJobNumbersalary 
             + payload.findJobNumberCategory + payload.findJobNumberCompany
             + payload.findJobNumberExperience + payload.findJobNumberLevel
             + payload.findJobNumberCertificate 

@@ -34,7 +34,8 @@ export class SigninSignupService {
 
   // User login
   loginUser(email, password) {
-    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.LOGIN}`, {email, password} ).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.LOGIN}`, {email, password})
+    .toPromise()
     .then(res => {
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
       this.setSuccess(true);
@@ -51,8 +52,9 @@ export class SigninSignupService {
     if (jobId === '') {
       return;
     } else {
-      const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-      return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SAVEJOB}${jobId}`, {}, { headers }).toPromise()
+      const headers = new Headers({'Content-Type': 'application/json', 'token':localStorage.getItem('token')});
+      return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SAVEJOB}${jobId}`, {}, { headers })
+      .toPromise()
       .then(res => {
         console.log(res.json().user.listjobuser);
         this.store.dispatch({ type: 'SAVE_JOB', user: res.json().user.listjobuser });
@@ -65,7 +67,8 @@ export class SigninSignupService {
 
   // User signup
   signUp(name, email, password) {
-    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SIGNUP}`, {email, password, name}).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.USER.SIGNUP}`, {email, password, name})
+    .toPromise()
     .then(res => {
       console.log(res.json());
       this.store.dispatch({ type: 'GET_USER', user: res.json() });
@@ -89,7 +92,8 @@ export class SigninSignupService {
 
   // Empolyer signin
   signinEmployer(email, password) {
-    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.EMPLOYER.LOGIN}`, {email, password} ).toPromise()
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.EMPLOYER.LOGIN}`, {email, password})
+    .toPromise()
     .then(res => {
       this.setSuccess(true);
       this.store.dispatch({ type: 'GET_EMPLOYER', employer: res.json() });

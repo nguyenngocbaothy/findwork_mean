@@ -10,5 +10,10 @@ export const APICONFIG = {
         SIGNUP: 'user/signup',
         SENDMAIL: 'employer/email',
         UPLOADFILE: 'uploadfile'
+    },
+    JOB: {
+        ADD: 'job/',
+        UPDATE: 'job/',
+        DELETE: 'job/'
     }
 };

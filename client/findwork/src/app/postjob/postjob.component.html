@@ -20,13 +20,16 @@
         <td>{{job.company}}</td>
         <td>{{job.location}}</td>
         <td>
-          <i (click)="selectRow(job)" class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="modal" data-target="#updatejobModal"></i>
+          <i (click)="selectRow(job)" class="fa fa-pencil fa-lg" aria-hidden="true" data-toggle="modal"
+          data-target="#updatejobModal"></i>
         </td>
         <td>
-          <i (click)="selectRow(job)" class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="modal" data-target="#deletejobModal"></i>
+          <i (click)="selectRow(job)" class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="modal"
+          data-target="#deletejobModal"></i>
         </td>
         <td>
-          <i (click)="selectRow(job)" class="fa fa-info fa-lg" aria-hidden="true" data-toggle="modal" data-target="#detailjobModal"></i>
+          <i (click)="selectRow(job)" class="fa fa-info fa-lg" aria-hidden="true" data-toggle="modal"
+          data-target="#detailjobModal"></i>
         </td>
       </tr>
 
@@ -49,7 +52,10 @@
         <form [formGroup]="formAddJob">
           <p>Title:</p>
           <input type="text" class="form-control" placeholder="Job title" formControlName="title">
-          <p *ngIf="formAddJob.controls.title.invalid && formAddJob.controls.title.touched" class="text-danger">Title is required</p>
+          <p *ngIf="formAddJob.controls.title.invalid && formAddJob.controls.title.touched"
+          class="text-danger">
+            {{VALIDATE_TITLE}}
+          </p>
           <br>
           <p>Category:</p>
           <select class="form-control" formControlName="category">
@@ -64,34 +70,56 @@
           <br>
           <p>Salary:</p>
           <input type="text" class="form-control" placeholder="Salary" formControlName="salary">
-          <p *ngIf="formAddJob.controls.salary.invalid && formAddJob.controls.salary.touched" class="text-danger">Salary is required</p>
+          <p *ngIf="formAddJob.controls.salary.invalid && formAddJob.controls.salary.touched"
+          class="text-danger">
+           {{VALIDATE_SALARY}}
+          </p>
           <br>
           <p>Company:</p>
           <input type="text" class="form-control" placeholder="Company" formControlName="company">
-          <p *ngIf="formAddJob.controls.company.invalid && formAddJob.controls.company.touched" class="text-danger">Company is required</p>
+          <p *ngIf="formAddJob.controls.company.invalid && formAddJob.controls.company.touched"
+          class="text-danger">
+            {{VALIDATE_COMPANY}}
+          </p>
           <br>
           <p>End day:</p>
-          <input type="date" class="form-control" placeholder="Company" formControlName="endDate">
-          <p *ngIf="formAddJob.controls.endDate.invalid && formAddJob.controls.endDate.touched" class="text-danger">End Date is required</p>
+          <input type="date" class="form-control" placeholder="End day" formControlName="endDate">
+          <p *ngIf="formAddJob.controls.endDate.invalid && formAddJob.controls.endDate.touched"
+          class="text-danger">
+            {{VALIDATE_ENDDAY}}
+          </p>
           <br>
           <p>Decription:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Description" formControlName="description"></textarea>
-          <p *ngIf="formAddJob.controls.description.invalid && formAddJob.controls.description.touched" class="text-danger">Description is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Description"
+          formControlName="description">
+          </textarea>
+          <p *ngIf="formAddJob.controls.description.invalid && formAddJob.controls.description.touched"
+          class="text-danger">
+            {{VALIDATE_DESCRIPTION}}
+          </p>
           <br>
           <p>Requirement:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Requirement" formControlName="requirement"></textarea>
-          <p *ngIf="formAddJob.controls.requirement.invalid && formAddJob.controls.requirement.touched" class="text-danger">Requirement is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Requirement"
+          formControlName="requirement">
+          </textarea>
+          <p *ngIf="formAddJob.controls.requirement.invalid && formAddJob.controls.requirement.touched"
+          class="text-danger">
+            {{VALIDATE_REQUIREMENT}}
+          </p>
 
           <br>
           <p>Benefit:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefit"></textarea>
-          <p *ngIf="formAddJob.controls.benefit.invalid && formAddJob.controls.benefit.touched" class="text-danger">Benefit is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefit">
+          </textarea>
+          <p *ngIf="formAddJob.controls.benefit.invalid && formAddJob.controls.benefit.touched"
+          class="text-danger">{{VALIDATE_BENEFIT}}</p>
 
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" (click)="addJob()" [disabled]="!formAddJob.valid" class="btn btn-success" data-dismiss="modal">ADD</button>
+        <button type="button" (click)="addJob()" [disabled]="!formAddJob.valid" class="btn btn-success"
+        data-dismiss="modal">ADD</button>
       </div>
     </div>
 
@@ -111,7 +139,8 @@
         <form [formGroup]="formUpdateJob">
           <p>Title:</p>
           <input type="text" class="form-control" placeholder="Job title" formControlName="titleupdate">
-          <p *ngIf="formUpdateJob.controls.titleupdate.invalid && formUpdateJob.controls.titleupdate.touched" class="text-danger">Title is required</p>
+          <p *ngIf="formUpdateJob.controls.titleupdate.invalid && formUpdateJob.controls.titleupdate.touched"
+          class="text-danger">{{VALIDATE_TITLE}}</p>
           <br>
           <p>Category:</p>
           <select class="form-control" formControlName="categoryupdate">
@@ -126,29 +155,40 @@
           <br>
           <p>Salary:</p>
           <input type="text" class="form-control" placeholder="Salary" formControlName="salaryupdate">
-          <p *ngIf="formUpdateJob.controls.salaryupdate.invalid && formUpdateJob.controls.salaryupdate.touched" class="text-danger">Salary is required</p>
+          <p *ngIf="formUpdateJob.controls.salaryupdate.invalid &&
+          formUpdateJob.controls.salaryupdate.touched"
+          class="text-danger">{{VALIDATE_SALARY}}</p>
           <br>
           <p>Company:</p>
           <input type="text" class="form-control" placeholder="Company" formControlName="companyupdate">
-          <p *ngIf="formUpdateJob.controls.companyupdate.invalid && formUpdateJob.controls.companyupdate.touched" class="text-danger">Company is required</p>
+          <p *ngIf="formUpdateJob.controls.companyupdate.invalid &&
+          formUpdateJob.controls.companyupdate.touched"
+          class="text-danger">{{VALIDATE_COMPANY}}</p>
           <br>
           <p>Decription:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Description" formControlName="descriptionupdate"></textarea>
-          <p *ngIf="formUpdateJob.controls.descriptionupdate.invalid && formUpdateJob.controls.descriptionupdate.touched" class="text-danger">Description is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Description"
+          formControlName="descriptionupdate"></textarea>
+          <p *ngIf="formUpdateJob.controls.descriptionupdate.invalid &&
+          formUpdateJob.controls.descriptionupdate.touched" class="text-danger">{{VALIDATE_DESCRIPTION}}</p>
           <br>
           <p>Requirement:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Requirement" formControlName="requirementupdate"></textarea>
-          <p *ngIf="formUpdateJob.controls.requirementupdate.invalid && formUpdateJob.controls.requirementupdate.touched" class="text-danger">Requirement is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Requirement"
+          formControlName="requirementupdate"></textarea>
+          <p *ngIf="formUpdateJob.controls.requirementupdate.invalid &&
+          formUpdateJob.controls.requirementupdate.touched" class="text-danger">{{VALIDATE_REQUIREMENT}}</p>
           <br>
           <p>Benefit:</p>
-          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefitupdate"></textarea>
-          <p *ngIf="formUpdateJob.controls.benefitupdate.invalid && formUpdateJob.controls.benefitupdate.touched" class="text-danger">Benefit is required</p>
+          <textarea class="form-control" rows="5" placeholder="Job Benefit" formControlName="benefitupdate">
+          </textarea>
+          <p *ngIf="formUpdateJob.controls.benefitupdate.invalid &&
+          formUpdateJob.controls.benefitupdate.touched" class="text-danger">{{VALIDATE_BENEFIT}}</p>
 
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" (click)="updateJob()" [disabled]="!formUpdateJob.valid" class="btn btn-info" data-dismiss="modal">Update</button>
+        <button type="button" (click)="updateJob()" [disabled]="!formUpdateJob.valid" class="btn btn-info"
+        data-dismiss="modal">Update</button>
       </div>
     </div>
 
@@ -170,7 +210,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" (click)="deleteJob()" class="btn btn-danger" data-dismiss="modal">Delete</button>
+        <button type="button" (click)="deleteJob()" class="btn btn-danger" data-dismiss="modal">
+          Delete</button>
       </div>
     </div>
 

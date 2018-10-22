@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { APICONFIG } from '../api.config';
+import { MESSAGES } from '../messages';
+
 
 const SERVER_URL = 'http://localhost:3000/';
 @Injectable()
@@ -24,6 +27,10 @@ export class JobsService {
     });
   }
 
+  // Thiêt_kế List Work Employer
+  // (2).4
+
+  // get list of jobs
   getAllJobByIdEmployer(id: string) {
     if (id !== undefined) {
       return this.http.get(SERVER_URL + 'job/' + id).subscribe((data: any) => {
@@ -33,39 +40,57 @@ export class JobsService {
     }
   }
 
+  // Thiết_kế Add Job
+  // (2) Xử lý thêm công việc
+  // (2).3
+
+  // add job
   addJob(payload) {
-    return this.http.post(SERVER_URL + 'job/' + this.idEmployer, payload).subscribe(data => {
+    return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.JOB.ADD}${this.idEmployer}`, payload)
+    .subscribe(data => {
       if (data.json().success) {
         this.getAllJobByIdEmployer(this.idEmployer);
-        alert('Add job successfully!');
+        alert(`${MESSAGES.ADDJOB.SUCCESS}`);
       } else {
-        alert('Error add job');
+        alert(`${MESSAGES.ADDJOB.ERROR}`);
       }
     });
   }
 
+  // Thiết_kế Delete Job
+  // (2) Xử lý xóa công việc
+  // (2).3
+
+  // delete job
   deleteJob(idJob) {
-    const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-    return this.http.delete(SERVER_URL + 'job/' + idJob, { headers }).subscribe(data => {
+    const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token')});
+    return this.http.delete(`${APICONFIG.BASEPOINT}${APICONFIG.JOB.DELETE}${idJob}`, { headers })
+    .subscribe(data => {
       console.log(data.json());
       if (data.json().success) {
         this.getAllJobByIdEmployer(this.idEmployer);
-        alert('Delete job successfully!');
+        alert(`${MESSAGES.DELETEJOB.SUCCESS}`);
       } else {
-        alert('Error delete job');
+        alert(`${MESSAGES.DELETEJOB.ERROR}`);
       }
     });
   }
 
+  // Thiết_kế Update Job
+  // (2) Xử lý sửa công việc
+  // (2).3
+
+  // update job
   updateJob(idJob, payload) {
     const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-    return this.http.put(SERVER_URL + 'job/' + idJob, payload, { headers }).subscribe(data => {
+    return this.http.put(`${APICONFIG.BASEPOINT}${APICONFIG.JOB.UPDATE}${idJob}`, payload, { headers })
+    .subscribe(data => {
       console.log(data.json());
       if (data.json().success) {
         this.getAllJobByIdEmployer(this.idEmployer);
-        alert('Update job successfully!');
+        alert(`${MESSAGES.UPDATEJOB.SUCCESS}`);
       } else {
-        alert('Error update job');
+        alert(`${MESSAGES.UPDATEJOB.ERROR}`);
       }
     });
   }
