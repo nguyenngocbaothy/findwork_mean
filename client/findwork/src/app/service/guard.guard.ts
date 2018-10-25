@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { map } from 'rxjs/operators';
+import { APICONFIG } from '../api.config';
 
 @Injectable()
 export class GuardGuard implements CanActivate, OnInit {
@@ -75,7 +76,7 @@ export class GuardGuard implements CanActivate, OnInit {
 
   getData(role) {
     const headers = new Headers({ 'Content-Type': 'application/json', 'token': localStorage.getItem('token') });
-    return this.http.post('http://localhost:3000' + '/' + role + '/check', {}, { headers });
+    return this.http.post(`${APICONFIG.BASEPOINT}${role}${APICONFIG.CHECKROLE.CHECK_ROLE}`, {}, { headers });
   }
 
   public checkToken(): boolean {

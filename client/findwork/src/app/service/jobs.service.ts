@@ -5,7 +5,7 @@ import { APICONFIG } from '../api.config';
 import { MESSAGES } from '../messages';
 
 
-const SERVER_URL = 'http://localhost:3000/';
+// const SERVER_URL = 'http://localhost:3000/';
 @Injectable()
 export class JobsService {
   // id of employer
@@ -38,7 +38,8 @@ export class JobsService {
   // get list of jobs
   getAllJobByIdEmployer(id: string) {
     if (id !== undefined) {
-      return this.http.get(SERVER_URL + 'job/' + id).subscribe((data: any) => {
+      return this.http.get(`${APICONFIG.BASEPOINT}${APICONFIG.JOB.GETLIST}${id}`)
+      .subscribe((data: any) => {
         console.log(data.json());
           this.alljob.next(data.json().newJob);
       });

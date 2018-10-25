@@ -14,12 +14,16 @@ export const APICONFIG = {
     JOB: {
         ADD: 'job/',
         UPDATE: 'job/',
-        DELETE: 'job/'
+        DELETE: 'job/',
+        GETLIST: 'job/'
     },
     DREAMJOB: {
         FIND: 'job/userfindjob/finddreamjob'
     },
     CHECKTOKEN: {
         EMPLOYER_TOKEN: 'employer/check'
+    },
+    CHECKROLE: {
+        CHECK_ROLE: '/check'
     }
 };

@@ -78,6 +78,10 @@ export class SigninSignupService {
     });
   }
 
+  // Thiết_kế sign up Emoloyer
+  // (2) Xử lý đăng kí
+  // (2).3
+
   // Employer signup
   signupEmployer(name, email, password) {
     return this.http.post(`${APICONFIG.BASEPOINT}${APICONFIG.EMPLOYER.SIGNUP}`,
@@ -89,6 +93,10 @@ export class SigninSignupService {
       console.log(err);
     });
   }
+
+  // Thiết_kế login Emoloyer
+  // (2) Xử lý đăng nhập
+  // (2).3
 
   // Empolyer signin
   signinEmployer(email, password) {
